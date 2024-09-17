@@ -17,5 +17,23 @@ class RendezVous extends Entity
 
     protected Specialite $specialitee;
 
+    protected string $type;
+
+    protected string $statut;
+
+    /**
+     * @param string $idPatient
+     * @param \DateTime $creneau
+     * @param Praticien $praticien
+     * @param Specialite $specialitee
+     */
+    public function __construct(string $idPatient, \DateTime $creneau, Praticien $praticien, Specialite $specialitee)
+    {
+        $this->idPatient = $idPatient;
+        $this->creneau = $creneau;
+        $this->praticien = $praticien;
+        $this->specialitee = $specialitee;
+    }
+
 
 }

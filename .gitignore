@@ -1,5 +1,6 @@
-toubeelib.env
-toubeelibdb.env
+*.env
+/toubeelib.env
+/toubeelibdb.env
 *.idea
 *.lock
 app/vendor/
