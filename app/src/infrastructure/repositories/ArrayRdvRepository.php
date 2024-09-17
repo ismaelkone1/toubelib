@@ -3,11 +3,11 @@
 namespace toubeelib\infrastructure\repositories;
 
 use Ramsey\Uuid\Uuid;
-use toubeelib\core\domain\entities\rdv\RendezVous;
-use toubeelib\core\repositoryInterfaces\RdvRepositoryInterface;
+use toubeelib\core\domain\entities\rendezvous\RendezVous;
+use toubeelib\core\repositoryInterfaces\RendezVousRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 
-class ArrayRdvRepository implements RdvRepositoryInterface
+class ArrayRdvRepository implements RendezVousRepositoryInterface
 {
     private array $rdvs = [];
 
@@ -22,5 +22,14 @@ class ArrayRdvRepository implements RdvRepositoryInterface
         $this->rdvs  = ['r1'=> $r1, 'r2'=>$r2, 'r3'=> $r3 ];
     }
 
-  
+
+    public function save(RendezVous $rendezVous): string
+    {
+        // TODO: Implement save() method.
+    }
+
+    public function getRendezVousById(string $id): RendezVous
+    {
+        return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
+    }
 }
