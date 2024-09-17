@@ -2,7 +2,7 @@
 
 namespace toubeelib\core\domain\entities\rendezvous;
 
-use DateTime;
+use DateTimeImmutable;
 use toubeelib\core\domain\entities\Entity;
 use toubeelib\core\domain\entities\praticien\Praticien;
 use toubeelib\core\domain\entities\praticien\Specialite;
@@ -12,11 +12,11 @@ class RendezVous extends Entity
 
     protected string $idPatient;
 
-    protected DateTime $creneau;
+    protected \DateTimeImmutable $creneau;
 
-    protected Praticien $praticien;
+    protected string $praticien;
 
-    protected Specialite $specialitee;
+    protected string $specialitee;
 
     protected string $type;
 
@@ -24,11 +24,11 @@ class RendezVous extends Entity
 
     /**
      * @param string $idPatient
-     * @param \DateTime $creneau
+     * @param \DateTimeImmutable $creneau
      * @param Praticien $praticien
      * @param Specialite $specialitee
      */
-    public function __construct(string $idPatient, \DateTime $creneau, Praticien $praticien, Specialite $specialitee)
+    public function __construct(string $praticien, string $idPatient, string $specialitee,\DateTimeImmutable $creneau)
     {
         $this->idPatient = $idPatient;
         $this->creneau = $creneau;
