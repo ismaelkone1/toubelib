@@ -9,7 +9,7 @@ use toubeelib\core\dto\DTO as dto;
 class RendezVousDTO extends dto
 {
     protected string $idPatient;
-    protected string $creneau;
+    protected \DateTimeImmutable $creneau;
     protected string $praticien;
     protected string $sepcialitee;
     protected string $type;
