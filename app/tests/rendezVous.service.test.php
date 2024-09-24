@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use toubeelib\core\dto\InputRendezVousDTO;
 use toubeelib\core\services\rdv\ServiceRendezVous;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
@@ -14,4 +16,4 @@ try {
     echo $e->getMessage() . PHP_EOL;
 }
 
-var_dump($re33); // Affiche les détails du rendez-vous récupéré
+print_r($re33); // Affiche les détails du rendez-vous récupéré

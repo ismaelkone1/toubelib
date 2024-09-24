@@ -34,6 +34,8 @@ class RendezVous extends Entity
         $this->creneau = $creneau;
         $this->praticien = $praticien;
         $this->specialitee = $specialitee;
+        $this->statut = '0';
+        $this->type = 'presentiel';
     }
 
 
