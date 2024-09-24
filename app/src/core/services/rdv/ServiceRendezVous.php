@@ -29,6 +29,17 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
     }
 
+    public function modifierRendezvous(InputRendezVousDTO $r): RendezVousDTO
+    {
+        try {
+            $rendezVous = $this->rendezVousRepository->modifierRendezvous($r->id, $r->specialitee, $r->patient);
+        } catch(RepositoryEntityNotFoundException $e) {
+            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+        }
+
+        return new RendezVousDTO($rendezVous);
+    }
+
     public function creerRendezvous(InputRendezVousDTO $r): RendezVousDTO
     {
         try {
@@ -38,8 +49,8 @@ class ServiceRendezVous implements ServiceRendezVousInterface
                 throw new ServiceRendezVousInvalidDataException('Praticien non trouve');
             }
             //La specilatite du rdv fait partie de celles du praticien
-            $specialite = $this->praticienRepository->getSpecialiteById($r->sepcialitee);
-            if ($specialite != $r->sepcialitee) {
+            $specialite = $this->praticienRepository->getSpecialiteById($r->specialitee);
+            if ($specialite != $r->specialitee) {
                 throw new ServiceRendezVousInvalidDataException('Specialitee non valide');
             }
 

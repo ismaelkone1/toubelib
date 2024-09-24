@@ -6,7 +6,7 @@ class InputRendezVousDTO extends DTO
 {
     protected string $creneau;
     protected string $praticien;
-    protected string $sepcialitee;
+    protected string $specialitee;
     protected string $type;
     protected string $statut;
 
@@ -15,7 +15,7 @@ class InputRendezVousDTO extends DTO
     {
         $this->creneau = $creneau;
         $this->praticien = $praticien;
-        $this->sepcialitee = $specialitee;
+        $this->specialitee = $specialitee;
         $this->type = $type;
         $this->statut = $statut;
 

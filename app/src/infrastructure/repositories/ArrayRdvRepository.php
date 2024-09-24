@@ -28,6 +28,20 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         // TODO: Implement save() method.
     }
 
+    public function modifierRendezvous(string $id, string $specialite, string $patient): RendezVous
+    {
+        $rdv = $this->getRendezVousById($id);
+
+        //On compare la spécialité du rdv avec celle donnée en paramètre
+        if($specialite != $rdv->specialitee) {
+            $rdv->setSpecialite($specialite);
+        }
+        if($patient != $rdv->idPatient) {
+            $rdv->setPatient($patient);
+        }
+        return $rdv;
+    }
+
     public function getRendezVousById(string $id): RendezVous
     {
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");

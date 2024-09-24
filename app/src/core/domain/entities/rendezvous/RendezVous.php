@@ -38,5 +38,15 @@ class RendezVous extends Entity
         $this->type = 'presentiel';
     }
 
+    public function setSpecialite(?string $specialite)
+    {
+        $this->specialitee = $specialite;
+    }
+
+    public function setPatient(?string $patient)
+    {
+        $this->idPatient = $patient;
+    }
+
 
 }

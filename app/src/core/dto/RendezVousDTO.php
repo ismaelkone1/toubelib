@@ -11,7 +11,7 @@ class RendezVousDTO extends DTO
     protected string $idPatient;
     protected \DateTimeImmutable $creneau;
     protected string $praticien;
-    protected string $sepcialitee;
+    protected string $specialitee;
     protected string $type;
     protected string $statut;
 
@@ -20,7 +20,7 @@ class RendezVousDTO extends DTO
         $this->idPatient = $rdv->getID();
         $this->creneau = $rdv->creneau;
         $this->praticien = $rdv->praticien;
-        $this->sepcialitee = $rdv->specialitee;
+        $this->specialitee = $rdv->specialitee;
         $this->type = $rdv->type;
         $this->statut = $rdv->statut;
 
