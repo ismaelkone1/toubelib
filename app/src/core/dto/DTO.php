@@ -2,10 +2,11 @@
 
 namespace toubeelib\core\dto;
 
+use JsonSerializable;
 use Respect\Validation\Validatable;
 use Respect\Validation\Validator;
 
-abstract class DTO
+abstract class DTO implements JsonSerializable
 {
     protected ?Validatable $businessValidator = null;
 
@@ -22,5 +23,9 @@ abstract class DTO
     }
     public function validate(): void {
         $this->businessValidator ? $this->businessValidator->assert($this): null;
+    }
+
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
     }
 }
