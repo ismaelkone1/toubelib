@@ -14,9 +14,8 @@ class ConsulterRendezVousAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args)
     {
-
         //On essaye de récupérer l'id donné en paramètre
-        $id = $args['id'] ?? null;
+        $id = $args['ID-RDV'] ?? null;
 
         $service = new ServiceRendezVous(new ArrayRdvRepository());
 
