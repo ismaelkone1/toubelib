@@ -4,9 +4,9 @@ namespace toubeelib\core\dto;
 
 use toubeelib\core\domain\entities\praticien;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
-use toubeelib\core\dto\DTO as dto;
+use toubeelib\core\dto\DTO;
 
-class RendezVousDTO extends dto
+class RendezVousDTO extends DTO
 {
     protected string $idPatient;
     protected \DateTimeImmutable $creneau;

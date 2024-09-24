@@ -31,6 +31,20 @@ class ServiceRendezVous implements ServiceRendezVousInterface
 
     public function creerRendezvous(InputRendezVousDTO $r): RendezVousDTO
     {
-        // TODO: Implement creerRendezvous() method.
+        try {
+            //Etape 1 : vérification d l'existence du praticien 
+            $praticien = $this->praticienRepository->getPraticienById($r->idPraticien);
+            if (!$praticien) {
+                throw new ServiceRendezVousInvalidDataException('Praticien non trouve');
+            }
+            //La specilatite du rdv fait partie de celles du praticien
+            $specialite = $this->praticienRepository->getSpecialiteById($r->sepcialitee);
+            if ($specialite != $r->sepcialitee) {
+                throw new ServiceRendezVousInvalidDataException('Specialitee non valide');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;²
+         }
     }
 }
