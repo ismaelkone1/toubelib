@@ -25,7 +25,10 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
     public function save(RendezVous $rendezVous): string
     {
-        // TODO: Implement save() method.
+        $ID = Uuid::uuid4()->toString();
+        $rendezVous->setID($ID);
+        $this->$rdvs[$ID] = $rendezVous;
+        return $ID;
     }
 
     public function modifierRendezvous(string $id, ?string $specialite, ?string $patient): RendezVous
@@ -46,4 +49,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     {
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
     }
+
+
+
 }

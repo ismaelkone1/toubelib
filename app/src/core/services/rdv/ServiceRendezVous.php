@@ -40,22 +40,37 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return new RendezVousDTO($rendezVous);
     }
 
-    public function creerRendezvous(InputRendezVousDTO $r): RendezVousDTO
+    public function creerRendezvous(string $idPatient,
+                                    \DateTimeImmutable $creneau,
+                                    string $praticien,  
+                                    string $specialitee,
+                                    string $type,
+                                    string $statut)         : RendezVous
     {
-        try {
-            //Etape 1 : vérification d l'existence du praticien 
-            $praticien = $this->praticienRepository->getPraticienById($r->idPraticien);
-            if (!$praticien) {
-                throw new ServiceRendezVousInvalidDataException('Praticien non trouve');
+               
+            $le_praticien = $this->praticienRepository->getPraticienById($praticien);
+            
+            $la_specialitee  =$this->praticienRepository->getSpecialiteById($le_praticien->specialitee);
+    
+    
+            
+            if (!$le_praticien) {
+                        throw new ServiceRendezVousInvalidDataException('Praticien non trouve');
+                    } 
+            if (!$la_specialitee)
+            {
+                        throw new ServiceRendezVousInvalidDataException('Specialitee non valide');
             }
-            //La specilatite du rdv fait partie de celles du praticien
-            $specialite = $this->praticienRepository->getSpecialiteById($r->specialitee);
-            if ($specialite != $r->specialitee) {
-                throw new ServiceRendezVousInvalidDataException('Specialitee non valide');
+    
+            foreach ($rdvs as $rdv){
+                // #TODO Verification d'horaires 
             }
 
-        } catch (\Throwable $th) {
-            //throw $th;²
-         }
+            $nrdv = new RendezVous($idPatient, \DateTimeImmutable::createFromFormat($creneau), $praticien, $specialitee,$type, $statut);
+            $nrdv =$this->rendezVousRepository->save($nrdv);
+                
+            return new RendezVousDTO ($nrdv);
+        
+ 
     }
 }
