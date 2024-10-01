@@ -20,6 +20,11 @@ class RendezVous extends Entity
 
     protected string $type;
 
+    /**
+     * @var string
+     * 0: en attente
+     * 1: annulé
+     */
     protected string $statut;
 
     /**
@@ -48,5 +53,10 @@ class RendezVous extends Entity
         $this->idPatient = $patient;
     }
 
+
+    public function setStatut(?string $statut)
+    {
+        $this->statut = $statut;
+    }
 
 }

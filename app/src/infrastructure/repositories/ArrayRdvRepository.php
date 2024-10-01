@@ -42,6 +42,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $rdv;
     }
 
+    public function annulerRendezvous(string $id): void
+    {
+        $rdv = $this->getRendezVousById($id);
+        $rdv->setStatut('1');
+    }
+
     public function getRendezVousById(string $id): RendezVous
     {
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
