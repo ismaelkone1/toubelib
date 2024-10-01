@@ -2,12 +2,11 @@
 
 namespace toubeelib\core\dto;
 
-use toubeelib\core\domain\entities\praticien;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
-use toubeelib\core\dto\DTO;
 
 class RendezVousDTO extends DTO
 {
+    protected string $ID;
     protected string $idPatient;
     protected \DateTimeImmutable $creneau;
     protected string $praticien;
@@ -17,7 +16,8 @@ class RendezVousDTO extends DTO
 
     public function __construct(RendezVous $rdv)
     {
-        $this->idPatient = $rdv->getID();
+        $this->ID = $rdv->getID();
+        $this->idPatient = $rdv->idPatient;
         $this->creneau = $rdv->creneau;
         $this->praticien = $rdv->praticien;
         $this->specialitee = $rdv->specialitee;

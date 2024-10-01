@@ -17,3 +17,13 @@ try {
 }
 
 print_r($re33); // Affiche les détails du rendez-vous récupéré
+
+
+try {
+    $re33 = $service->modifierRendezvous('r1', 'A', 'p1');
+} catch (ServiceRendezVousInvalidDataException $e) {
+    echo 'Exception dans la modification d\'un rendez-vous :' . PHP_EOL;
+    echo $e->getMessage() . PHP_EOL;
+}
+
+print_r($re33);

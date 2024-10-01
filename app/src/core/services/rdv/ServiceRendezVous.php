@@ -29,10 +29,10 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
     }
 
-    public function modifierRendezvous(InputRendezVousDTO $r): RendezVousDTO
+    public function modifierRendezvous(string $id, $specialitee, $patient): RendezVousDTO
     {
         try {
-            $rendezVous = $this->rendezVousRepository->modifierRendezvous($r->id, $r->specialitee, $r->patient);
+            $rendezVous = $this->rendezVousRepository->modifierRendezvous($id, $specialitee, $patient);
         } catch(RepositoryEntityNotFoundException $e) {
             throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
         }

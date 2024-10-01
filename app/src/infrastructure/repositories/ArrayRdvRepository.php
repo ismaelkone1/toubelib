@@ -28,15 +28,15 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         // TODO: Implement save() method.
     }
 
-    public function modifierRendezvous(string $id, string $specialite, string $patient): RendezVous
+    public function modifierRendezvous(string $id, ?string $specialite, ?string $patient): RendezVous
     {
         $rdv = $this->getRendezVousById($id);
 
         //On compare la spécialité du rdv avec celle donnée en paramètre
-        if($specialite != $rdv->specialitee) {
+        if($specialite != $rdv->specialitee && $specialite != null) {
             $rdv->setSpecialite($specialite);
         }
-        if($patient != $rdv->idPatient) {
+        if($patient != $rdv->idPatient && $patient != null) {
             $rdv->setPatient($patient);
         }
         return $rdv;
