@@ -44,4 +44,15 @@ class ServicePraticien implements ServicePraticienInterface
             throw new ServicePraticienInvalidDataException('invalid Specialite ID');
         }
     }
+
+    /**
+     * @param string $id
+     * @return array La méthode retourne un tableau de créneaux horaires disponibles, chaque créneau
+     * étant un objet DateTime.
+     *      */
+    public function listerDispobibilites(string $id): array
+    {
+        // TODO : retourner les créneaux horaires disponibles pour le praticien
+        return [];
+    }
 }

@@ -12,7 +12,10 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 {
     private array $rdvs = [];
 
+    const Prevu = '0';
     const Annule = '1';
+    const Honore = '2';
+    const NonHonore = '3';
 
     public function __construct() {
             $r1 = new RendezVous('p1', 'pa1', 'A', \DateTimeImmutable::createFromFormat('Y-m-d H:i','2024-09-02 09:00') );

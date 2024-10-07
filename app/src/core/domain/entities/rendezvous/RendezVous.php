@@ -22,8 +22,10 @@ class RendezVous extends Entity
 
     /**
      * @var string
-     * 0: en attente
+     * 0: prévu
      * 1: annulé
+     * 2: honoré
+     * 3: non honoré
      */
     protected string $statut;
 
