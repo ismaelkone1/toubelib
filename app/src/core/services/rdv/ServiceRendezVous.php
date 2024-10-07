@@ -40,12 +40,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return new RendezVousDTO($rendezVous);
     }
 
-    public function creerRendezvous(string $idPatient,
-                                    \DateTimeImmutable $creneau,
-                                    string $praticien,  
-                                    string $specialitee,
-                                    string $type,
-                                    string $statut)         : RendezVous
+    public function creerRendezvous(InputRendezVousDTO $r) : RendezVousDTO
     {
                
             $le_praticien = $this->praticienRepository->getPraticienById($praticien);
