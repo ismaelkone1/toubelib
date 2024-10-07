@@ -29,6 +29,9 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
     }
 
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
     public function modifierRendezvous(string $id, $specialitee, $patient): RendezVousDTO
     {
         try {
@@ -40,10 +43,13 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return new RendezVousDTO($rendezVous);
     }
 
-    public function annulerRendezvous(string $id): void
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
+    public function annulerRendezvous(string $id): RendezVousDTO
     {
         try {
-            $this->rendezVousRepository->annulerRendezvous($id);
+            return new RendezVousDTO($this->rendezVousRepository->annulerRendezvous($id));
         } catch(RepositoryEntityNotFoundException $e) {
             throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
         }

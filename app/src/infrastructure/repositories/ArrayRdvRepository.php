@@ -4,6 +4,7 @@ namespace toubeelib\infrastructure\repositories;
 
 use Ramsey\Uuid\Uuid;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
+use toubeelib\core\dto\RendezVousDTO;
 use toubeelib\core\repositoryInterfaces\RendezVousRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 
@@ -53,10 +54,11 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     /**
      * @throws RepositoryEntityNotFoundException
      */
-    public function annulerRendezvous(string $id): void
+    public function annulerRendezvous(string $id): RendezVous
     {
         $rdv = $this->getRendezVousById($id);
         $rdv->setStatut(self::Annule);
+        return $rdv;
     }
 
     /**

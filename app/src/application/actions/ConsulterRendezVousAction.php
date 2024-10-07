@@ -10,7 +10,7 @@ use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
 use toubeelib\infrastructure\repositories\ArrayRdvRepository;
 
-class ConsulterRendezVousAction
+class ConsulterRendezVousAction extends AbstractAction
 {
 
     private ServiceRendezVousInterface $serviceRendezVousInterface;
