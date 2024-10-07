@@ -40,6 +40,15 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return new RendezVousDTO($rendezVous);
     }
 
+    public function annulerRendezvous(string $id): void
+    {
+        try {
+            $this->rendezVousRepository->annulerRendezvous($id);
+        } catch(RepositoryEntityNotFoundException $e) {
+            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+        }
+    }
+
     public function creerRendezvous(InputRendezVousDTO $r) : RendezVousDTO
     {
                

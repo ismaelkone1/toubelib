@@ -11,6 +11,8 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 {
     private array $rdvs = [];
 
+    const Annule = '1';
+
     public function __construct() {
             $r1 = new RendezVous('p1', 'pa1', 'A', \DateTimeImmutable::createFromFormat('Y-m-d H:i','2024-09-02 09:00') );
             $r1->setID('r1');
@@ -27,10 +29,13 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     {
         $ID = Uuid::uuid4()->toString();
         $rendezVous->setID($ID);
-        $this->$rdvs[$ID] = $rendezVous;
+        $this->rdvs[$ID] = $rendezVous;
         return $ID;
     }
 
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
     public function modifierRendezvous(string $id, ?string $specialite, ?string $patient): RendezVous
     {
         $rdv = $this->getRendezVousById($id);
@@ -45,12 +50,18 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $rdv;
     }
 
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
     public function annulerRendezvous(string $id): void
     {
         $rdv = $this->getRendezVousById($id);
-        $rdv->setStatut('1');
+        $rdv->setStatut(self::Annule);
     }
 
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
     public function getRendezVousById(string $id): RendezVous
     {
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
