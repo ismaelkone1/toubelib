@@ -10,5 +10,5 @@ interface ServiceRendezVousInterface
 {
 
     public function getRendezVousById(string $id): RendezVousDTO;
-    public function creerRendezvous(InputRendezVousDTO $r) : RendezVousDTO;
+    public function creerRendezVous(InputRendezVousDTO $r) : RendezVousDTO;
 }
