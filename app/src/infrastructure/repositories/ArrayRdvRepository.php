@@ -4,18 +4,12 @@ namespace toubeelib\infrastructure\repositories;
 
 use Ramsey\Uuid\Uuid;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
-use toubeelib\core\dto\RendezVousDTO;
 use toubeelib\core\repositoryInterfaces\RendezVousRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 
 class ArrayRdvRepository implements RendezVousRepositoryInterface
 {
     private array $rdvs = [];
-
-    const Prevu = '0';
-    const Annule = '1';
-    const Honore = '2';
-    const NonHonore = '3';
 
     public function __construct() {
             $r1 = new RendezVous('p1', 'pa1', 'A', \DateTimeImmutable::createFromFormat('Y-m-d H:i','2024-09-02 09:00') );
@@ -42,14 +36,6 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return array_values($this->rdvs); // Renvoie un tableau contenant tous les rendez-vous
     }
 
-    public function getAll(): array
-    {
-        return array_values($this->rdvs); // Renvoie un tableau contenant tous les rendez-vous
-    }
-
-    /**
-     * @throws RepositoryEntityNotFoundException
-     */
     public function modifierRendezvous(string $id, ?string $specialite, ?string $patient): RendezVous
     {
         $rdv = $this->getRendezVousById($id);
@@ -64,19 +50,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $rdv;
     }
 
-    /**
-     * @throws RepositoryEntityNotFoundException
-     */
-    public function annulerRendezvous(string $id): RendezVous
+    public function annulerRendezvous(string $id): void
     {
         $rdv = $this->getRendezVousById($id);
-        $rdv->setStatut(self::Annule);
-        return $rdv;
+        $rdv->setStatut('1');
     }
 
-    /**
-     * @throws RepositoryEntityNotFoundException
-     */
     public function getRendezVousById(string $id): RendezVous
     {
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
