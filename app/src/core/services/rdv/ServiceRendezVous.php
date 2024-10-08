@@ -97,4 +97,45 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return new RendezVousDTO($rdv);
     }
 
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
+    public function setStatutHonore(string $id): RendezVousDTO
+    {
+        try {
+            $rdv = $this->rendezVousRepository->setStatutHonore($id);
+        } catch(RepositoryEntityNotFoundException $e) {
+            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+        }
+
+        return new RendezVousDTO($rdv);
+    }
+
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
+    public function setStatutPaye(string $id): RendezVousDTO{
+        try {
+            $rdv = $this->rendezVousRepository->setStatutPaye($id);
+        } catch(RepositoryEntityNotFoundException $e) {
+            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+        }
+
+        return new RendezVousDTO($rdv);
+    }
+
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
+    public function setStatutNonHonore(string $id): RendezVousDTO
+    {
+        try {
+            $rdv = $this->rendezVousRepository->setStatutNonHonore($id);
+        } catch (RepositoryEntityNotFoundException $e) {
+            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+        }
+
+        return new RendezVousDTO($rdv);
+    }
+
 }

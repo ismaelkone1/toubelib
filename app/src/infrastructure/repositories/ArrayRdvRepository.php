@@ -78,6 +78,9 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         });
     }
 
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
     public function annulerRendezvous(string $id): RendezVous
     {
         $rdv = $this->getRendezVousById($id);
@@ -86,4 +89,34 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     }
 
 
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
+    public function setStatutHonore(string $id): RendezVous
+    {
+        $rdv = $this->getRendezVousById($id);
+        $rdv->setStatut(RendezVous::HONORE);
+        return $rdv;
+    }
+
+
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
+    public function setStatutPaye(string $id): RendezVous
+    {
+        $rdv = $this->getRendezVousById($id);
+        $rdv->setStatut(RendezVous::PAYE);
+        return $rdv;
+    }
+
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
+    public function setStatutNonHonore(string $id): RendezVous
+    {
+        $rdv = $this->getRendezVousById($id);
+        $rdv->setStatut(RendezVous::NON_HONORE);
+        return $rdv;
+    }
 }
