@@ -11,6 +11,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 {
     private array $rdvs = [];
 
+
     public function __construct() {
             $r1 = new RendezVous('p1', 'pa1', 'A', \DateTimeImmutable::createFromFormat('Y-m-d H:i','2024-09-02 09:00') );
             $r1->setID('r1');
@@ -50,12 +51,6 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $rdv;
     }
 
-    public function annulerRendezvous(string $id): void
-    {
-        $rdv = $this->getRendezVousById($id);
-        $rdv->setStatut('1');
-    }
-
     public function getRendezVousById(string $id): RendezVous
     {
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
@@ -66,7 +61,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     return array_filter($this->rdvs, function($rdv) use ($praticienId, $creneau) {
         return $rdv->getPraticienId() === $praticienId && $rdv->getCreneau() == $creneau;
     });
-    }   
+    }
 
     public function getRendezVousByPatient(string $patientId): array
     {
@@ -83,13 +78,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         });
     }
 
-    public function SupprimerRendezVous(string $id): void
+    public function annulerRendezvous(string $id): RendezVous
     {
-        if (isset($this->rdvs[$id])) {
-            unset($this->rdvs[$id]);
-        } else {
-            throw new RepositoryEntityNotFoundException("RendezVous with ID $id not found.");
-        }
-
+        $rdv = $this->getRendezVousById($id);
+        $rdv->setStatut(RendezVous::ANNULE);
+        return $rdv;
     }
+
+
 }

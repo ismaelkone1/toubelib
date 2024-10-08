@@ -20,7 +20,7 @@ return [
     },
 
     ServiceRendezVousInterface::class => function (ContainerInterface $c) {
-        return new ServiceRendezVous($c->get(RendezVousRepositoryInterface::class));
+        return new ServiceRendezVous($c->get(RendezVousRepositoryInterface::class) , $c->get(PraticienRepositoryInterface::class));
     },
 
     RendezVousRepositoryInterface::class => function (ContainerInterface $c) {

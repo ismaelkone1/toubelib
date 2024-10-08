@@ -25,9 +25,16 @@ class RendezVous extends Entity
      * 0: prévu
      * 1: annulé
      * 2: honoré
-     * 3: non honoré
+     * 3: payé
+     * 4: non honoré
      */
     protected string $statut;
+
+    const PREVU = '0';
+    const ANNULE = '1';
+    const HONORE = '2';
+    const PAYE = '3';
+    const NON_HONORE = '4';
 
     /**
      * @param string $idPatient
