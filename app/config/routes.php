@@ -10,13 +10,17 @@ use toubeelib\application\actions\ModifierRendezVousAction;
 
 return function( \Slim\App $app):\Slim\App {
 
-    $app->get('/', HomeAction::class);
+    $app->get('/', HomeAction::class)
+    ->add(new \app\middlewares\AddHearders);
 
-    $app->get('/rdvs/{ID-RDV}', ConsulterRendezVousAction::class);
+    $app->get('/rdvs/{ID-RDV}', ConsulterRendezVousAction::class
+    ->add(new \app\middlewares\AddHearders));
 
-    $app->patch('/rdvs/{ID-RDV}', ModifierRendezVousAction::class);
+    $app->patch('/rdvs/{ID-RDV}', ModifierRendezVousAction::class
+    ->add(new \app\middlewares\AddHearders));
 
-    $app->delete('/rdvs/{ID-RDV}', AnnulerRendezVous::class);
+    $app->delete('/rdvs/{ID-RDV}', AnnulerRendezVous::class
+    ->add(new \app\middlewares\AddHearders));
 
     return $app;
 };
