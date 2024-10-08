@@ -37,6 +37,16 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $ID;
     }
 
+    public function getAll(): array
+    {
+        return array_values($this->rdvs); // Renvoie un tableau contenant tous les rendez-vous
+    }
+
+    public function getAll(): array
+    {
+        return array_values($this->rdvs); // Renvoie un tableau contenant tous les rendez-vous
+    }
+
     /**
      * @throws RepositoryEntityNotFoundException
      */
@@ -72,6 +82,35 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $this->rdvs[$id] ?? throw new RepositoryEntityNotFoundException("RendezVous $id not found");
     }
 
+    public function getRendezVousByPraticienAndCreneau(string $praticienId, \DateTimeImmutable $creneau): array
+    {
+    return array_filter($this->rdvs, function($rdv) use ($praticienId, $creneau) {
+        return $rdv->getPraticienId() === $praticienId && $rdv->getCreneau() == $creneau;
+    });
+    }   
 
+    public function getRendezVousByPatient(string $patientId): array
+    {
+        return array_filter($this->rdvs, function($rdv) use ($patientId) {
+            return $rdv->getPatientId() === $patientId;
+        });
+    }
 
+    public function getRendezVousByPraticienEtCreneau(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end): array
+    {
+        return array_filter($this->rdvs, function($rdv) use ($praticienId, $start, $end) {
+            $creneau = $rdv->getCreneau();
+            return $rdv->getPraticienId() === $praticienId && $creneau >= $start && $creneau <= $end;
+        });
+    }
+
+    public function SupprimerRendezVous(string $id): void
+    {
+        if (isset($this->rdvs[$id])) {
+            unset($this->rdvs[$id]);
+        } else {
+            throw new RepositoryEntityNotFoundException("RendezVous with ID $id not found.");
+        }
+
+    }
 }
