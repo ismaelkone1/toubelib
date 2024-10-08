@@ -44,15 +44,28 @@ class ModifierRendezVousAction extends AbstractAction
             $data = [
                 'rdv' => $rdv,
                 'links' => [
-                    'self' => '/rdv/' . $id
+                    'self' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'modifier' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'annuler' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'praticien' => [
+                        "href" => '/praticien/' . $rdv->getPraticien()
+                    ],
+                    'patient' => [
+                        "href" => '/patient/' . $rdv->getIdPatient()
+                    ]
                 ]
             ];
 
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
             return JsonRenderer::render($rs, 400, ['error' => $e->getMessage()]);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return JsonRenderer::render($rs, 500, ['error' => $e->getMessage()]);
         }
     }

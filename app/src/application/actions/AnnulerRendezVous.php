@@ -32,7 +32,21 @@ class AnnulerRendezVous
             $data = [
                 'rdv' => $rdv,
                 'links' => [
-                    'self' => '/rdv/' . $id
+                    'self' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'modifier' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'annuler' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'praticien' => [
+                        "href" => '/praticien/' . $rdv->getPraticien()
+                    ],
+                    'patient' => [
+                        "href" => '/patient/' . $rdv->getIdPatient()
+                    ]
                 ]
             ];
 

@@ -25,5 +25,15 @@ class RendezVousDTO extends DTO
         $this->statut = $rdv->statut;
 
     }
-    
+
+    public function getPraticien(): string
+    {
+        return $this->praticien;
+    }
+
+    public function getIdPatient()
+    {
+        return $this->idPatient;
+    }
+
 }

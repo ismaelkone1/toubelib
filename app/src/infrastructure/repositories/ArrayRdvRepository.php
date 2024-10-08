@@ -119,4 +119,9 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         $rdv->setStatut(RendezVous::NON_HONORE);
         return $rdv;
     }
+
+    public function listerDispoPraticien()
+    {
+
+    }
 }

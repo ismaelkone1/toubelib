@@ -35,7 +35,24 @@ class ConsulterRendezVousAction extends AbstractAction
             //var_dump($rdv);
 
             $data = [
-                'rdv' => $rdv
+                'rdv' => $rdv,
+                'links' => [
+                    'self' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'modifier' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'annuler' => [
+                        "href" => '/rdv/' . $id
+                    ],
+                    'praticien' => [
+                        "href" => '/praticien/' . $rdv->getPraticien()
+                    ],
+                    'patient' => [
+                        "href" => '/patient/' . $rdv->getIdPatient()
+                    ]
+                ]
             ];
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
