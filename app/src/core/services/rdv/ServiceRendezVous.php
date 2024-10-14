@@ -4,6 +4,7 @@ namespace toubeelib\core\services\rdv;
 
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
 use toubeelib\core\dto\InputRendezVousDTO;
+use toubeelib\core\dto\ModificationRendezVousDTO;
 use toubeelib\core\dto\RendezVousDTO;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RendezVousRepositoryInterface;
@@ -35,10 +36,13 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     /**
      * @throws ServiceRendezVousInvalidDataException
      */
-    public function modifierRendezvous(string $id, $specialitee, $patient): RendezVousDTO
+    public function modifierRendezvous(ModificationRendezVousDTO $modificationRendezVousDTO): RendezVousDTO
     {
+
+
+        //TODO: voir si on transmet le DTO ou les paramètres
         try {
-            $rendezVous = $this->rendezVousRepository->modifierRendezvous($id, $specialitee, $patient);
+            $rendezVous = $this->rendezVousRepository->modifierRendezvous($modificationRendezVousDTO);
         } catch (RepositoryEntityNotFoundException $e) {
             throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID');
         }

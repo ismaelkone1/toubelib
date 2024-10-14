@@ -4,9 +4,12 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
+use toubeelib\core\dto\ModificationRendezVousDTO;
 use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
+use Respect\Validation\Validator as v;
 
 class ModifierRendezVousAction extends AbstractAction
 {
@@ -25,33 +28,39 @@ class ModifierRendezVousAction extends AbstractAction
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
 
-        $id = $args['ID-RDV'] ?? null;
-
         $data = $rq->getParsedBody();
 
-        //Si ni le patient ni la specialitee ne sont renseignés
-        if (!isset($data['specialitee']) && !isset($data['patient'])) {
-            return JsonRenderer::render($rs, 400, ['error' => 'specialitee or patient are required']);
+        $modifierRdvInputValidator = v::key('ID-RDV', v::stringType()->notEmpty())
+            ->key('specialitee', v::optional(v::stringType()->notEmpty()))
+            ->key('patient', v::optional(v::stringType()->notEmpty()));
+
+        try {
+            $modifierRdvInputValidator->assert($data);
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
+            throw new HttpBadRequestException($rq, $e->getMessages());
         }
 
-        $specialitee = $data['specialitee'] ?? null;
-        $patient = $data['patient'] ?? null;
+        if ((filter_var($args['ID-RDV'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $args['ID-RDV'] || (filter_var($data['specialitee'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $data['specialitee'] || (filter_var($data['patient'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $data['patient']) {
+            throw new HttpBadRequestException($rq, "Bad data format");
+        }
+
+        $modifierRdvDto = new ModificationRendezVousDTO($args['ID-RDV'], $data['patient'], $data['specialitee']);
 
         try {
 
-            $rdv = $this->serviceRendezVousInterface->modifierRendezvous($id, $specialitee, $patient);
+            $rdv = $this->serviceRendezVousInterface->modifierRendezvous($modifierRdvDto);
 
             $data = [
                 'rdv' => $rdv,
                 'links' => [
                     'self' => [
-                        "href" => '/rdv/' . $id
+                        "href" => '/rdv/' . $args['ID-RDV']
                     ],
                     'modifier' => [
-                        "href" => '/rdv/' . $id
+                        "href" => '/rdv/' . $args['ID-RDV']
                     ],
                     'annuler' => [
-                        "href" => '/rdv/' . $id
+                        "href" => '/rdv/' . $args['ID-RDV']
                     ],
                     'praticien' => [
                         "href" => '/praticien/' . $rdv->getPraticien()

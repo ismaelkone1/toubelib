@@ -9,6 +9,3 @@ CREATE TABLE "public"."users" (
     CONSTRAINT "users_email" UNIQUE ("email"),
     CONSTRAINT "users_id" PRIMARY KEY ("id")
 ) WITH (oids = false);
-
-
--- 2024-10-07 07:09:29.099484+00

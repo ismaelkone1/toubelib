@@ -2,10 +2,10 @@
 
 DROP TABLE IF EXISTS "rdv";
 CREATE TABLE "public"."rdv" (
-    "id" integer NOT NULL,
-    "id_praticien" integer NOT NULL,
-    "id_patient" integer NOT NULL,
-    "id_spe" integer NOT NULL,
+    "id" character varying(36) NOT NULL,
+    "id_praticien" character varying(36) NOT NULL,
+    "id_patient" character varying(36) NOT NULL,
+    "id_spe" character varying(36) NOT NULL,
     "type" character varying(20) NOT NULL,
     "statut" character varying(20) NOT NULL,
     CONSTRAINT "rdv_id" PRIMARY KEY ("id")
