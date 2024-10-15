@@ -73,9 +73,7 @@ class ModifierRendezVousAction extends AbstractAction
 
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
-            return JsonRenderer::render($rs, 400, ['error' => $e->getMessage()]);
-        } catch (\Exception $e) {
-            return JsonRenderer::render($rs, 500, ['error' => $e->getMessage()]);
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
     }
 }

@@ -6,7 +6,7 @@ CREATE TABLE "public"."praticien" (
     "nom" character varying(30) NOT NULL,
     "prenom" character varying(30) NOT NULL,
     "tel" character(10) NOT NULL,
-    "adresse" character varying(30) NOT NULL,
+    "adresse" character varying(50) NOT NULL,
     "specialite_id" character varying(36) NOT NULL,
     CONSTRAINT "praticien_id" PRIMARY KEY ("id")
 ) WITH (oids = false);

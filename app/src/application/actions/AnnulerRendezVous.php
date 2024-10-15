@@ -4,6 +4,8 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
+use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
@@ -25,6 +27,18 @@ class AnnulerRendezVous
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
         $id = $args['ID-RDV'] ?? null;
+
+        $idValidator = Validator::stringType()->notEmpty();
+
+        try {
+            $idValidator->assert($id);
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
+            return JsonRenderer::render($rs, 400, ['error' => $e->getMessages()]);
+        }
+
+        if ((filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $id) {
+            return JsonRenderer::render($rs, 400, ['error' => 'Bad data format']);
+        }
 
         try {
             $rdv = $this->serviceRendezVousInterface->annulerRendezvous($id);
@@ -52,10 +66,7 @@ class AnnulerRendezVous
 
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
-            return $rs->withStatus(400);
-        }
-        catch (\Exception $e) {
-            return $rs->withStatus(500);
+            throw new HttpBadRequestException($rq, $e->getMessages());
         }
     }
 }
