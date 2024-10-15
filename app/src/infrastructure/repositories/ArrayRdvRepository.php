@@ -57,12 +57,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         $updateFields = [];
         $params = [':id' => $id];
 
-        if ($specialite !== null && $specialite !== $rdv->getSpecialiteeId()) {
+        if ($specialite !== null && $specialite !== $rdv->specialitee) {
             $updateFields[] = 'id_spe = :specialite';
             $params[':specialite'] = $specialite;
         }
 
-        if ($patient !== null && $patient !== $rdv->getPatientId()) {
+        if ($patient !== null && $patient !== $rdv->idPatient) {
             $updateFields[] = 'id_patient = :patient';
             $params[':patient'] = $patient;
         }

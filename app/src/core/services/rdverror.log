@@ -1,2 +1,3 @@
 [2024-10-15T15:01:49.880135+00:00] my_logger.INFO: Invalid place data [] []
 [2024-10-15T15:03:43.368146+00:00] my_logger.INFO: Invalid place data [] []
+[2024-10-15T15:15:06.176399+00:00] my_logger.INFO: Modification de rendez-vous bien enregistrée {"id":"7j8k9l0m-1121-3141-5161-9201n3o4p5q6","specialitee":"B","idPatient":"pa11"} []

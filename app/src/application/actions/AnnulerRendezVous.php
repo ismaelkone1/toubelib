@@ -11,7 +11,7 @@ use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
 use function FastRoute\cachedDispatcher;
 
-class AnnulerRendezVous
+class AnnulerRendezVous extends AbstractAction
 {
 
     private ServiceRendezVousInterface $serviceRendezVousInterface;

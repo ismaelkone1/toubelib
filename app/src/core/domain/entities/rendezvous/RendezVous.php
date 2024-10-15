@@ -67,27 +67,4 @@ class RendezVous extends Entity
     {
         $this->statut = $statut;
     }
-
-    public function getPraticienId(){
-        return $this->praticien;
-    }
-
-    public function getPatientId(){
-        return $this->patient;
-    }
-
-    public function getSpecialiteeId(){
-        return $this->specialitee;
-    }
-
-    public function getStatut(){
-        return $this->statut;
-    }
-
-    public function getCreneau(){
-        return $this->creneau;
-    }
-    public function getType(){
-        return $this->type;
-    }
 }

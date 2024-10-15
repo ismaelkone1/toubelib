@@ -53,8 +53,8 @@ class ServiceRendezVous implements ServiceRendezVousInterface
 
         //On valide le fait que le patient ou bien la spécialité soit renseigné
         $modifRdvValidator = Validator::anyOf(
-            Validator::key('idPatient', Validator::stringType()->notEmpty()),
-            Validator::key('specialitee', Validator::stringType()->notEmpty())
+            Validator::attribute('specialitee', Validator::stringType()->notEmpty()),
+            Validator::attribute('idPatient', Validator::stringType()->notEmpty())
         );
 
         $modificationRendezVousDTO->setBusinessValidator($modifRdvValidator);
