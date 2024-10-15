@@ -8,6 +8,7 @@ CREATE TABLE "public"."rdv" (
     "id_spe" character varying(36) NOT NULL,
     "type" character varying(20) NOT NULL,
     "statut" character varying(20) NOT NULL,
+    "creneau" timestamp without time zone NOT NULL,
     CONSTRAINT "rdv_id" PRIMARY KEY ("id")
 ) WITH (oids = false);
 

@@ -157,6 +157,8 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
     private function mapToRendezVous(array $data): RendezVous
     {
+        //On v
+
         $rdv = new RendezVous(
             $data['id_praticien'],
             $data['id_patient'],

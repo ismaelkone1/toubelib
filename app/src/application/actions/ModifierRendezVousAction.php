@@ -30,9 +30,17 @@ class ModifierRendezVousAction extends AbstractAction
 
         $data = $rq->getParsedBody();
 
-        $modifierRdvInputValidator = v::key('ID-RDV', v::stringType()->notEmpty())
-            ->key('specialitee', v::optional(v::stringType()->notEmpty()))
+        $modifierRdvInputValidator = v::key('specialitee', v::optional(v::stringType()->notEmpty()))
             ->key('patient', v::optional(v::stringType()->notEmpty()));
+
+        //On teste si le $args['ID-RDV'] est bien une chaine de caractère non vide
+        $idValidator = v::stringType()->notEmpty();
+
+        try {
+            $idValidator->assert($args['ID-RDV']);
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
 
         try {
             $modifierRdvInputValidator->assert($data);

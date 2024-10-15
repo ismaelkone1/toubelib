@@ -21,12 +21,14 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     private RendezVousRepositoryInterface $rendezVousRepository;
     private PraticienRepositoryInterface $praticienRepository;
 
+    private $logger;
+
     public function __construct(RendezVousRepositoryInterface $rendezVousRepository, PraticienRepositoryInterface $praticienRepository)
     {
         $this->rendezVousRepository = $rendezVousRepository;
         $this->praticienRepository = $praticienRepository;
-        $this->logger = $logger;
-        $logger = pushHandler(new StreamHandler(__DIR__.'error.log', Logger::INFO));
+        $logger = new Logger('my_logger');
+        $this->logger = $logger->pushHandler(new StreamHandler(__DIR__.'error.log', Logger::INFO));
     }
 
 
@@ -60,8 +62,8 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         try {
             $modificationRendezVousDTO->validate();
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
-            throw new ServiceRendezVousInvalidDataException('Invalid place data: ' . $e->getMessages());
             $this->logger->info('Invalid place data');
+            throw new ServiceRendezVousInvalidDataException('Invalid place data: ' . $e->getMessage());
         }
 
         //TODO: voir si on transmet le DTO ou les paramètres
@@ -73,10 +75,10 @@ class ServiceRendezVous implements ServiceRendezVousInterface
                 'idPatient' => $modificationRendezVousDTO->idPatient,
             ]);
         } catch (RepositoryEntityNotFoundException $e) {
-            throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID');
             $this->logger->error('Modification de rendez-vous échouée', [
                 'error' => $e->getMessage(),
             ]);
+            throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID');
         }
 
         return new RendezVousDTO($rendezVous);

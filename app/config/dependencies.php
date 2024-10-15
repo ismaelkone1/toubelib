@@ -1,6 +1,5 @@
 <?php
 
-use PDO;
 use Psr\Container\ContainerInterface;
 use toubeelib\application\actions\ConsulterRendezVousAction;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
