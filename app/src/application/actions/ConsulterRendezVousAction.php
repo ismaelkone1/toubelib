@@ -4,6 +4,8 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Respect\Validation\Validator;
+use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\services\rdv\ServiceRendezVous;
 use toubeelib\core\services\rdv\ServiceRendezVousInterface;
@@ -29,10 +31,20 @@ class ConsulterRendezVousAction extends AbstractAction
         //On essaye de récupérer l'id donné en paramètre
         $id = $args['ID-RDV'] ?? null;
 
+        $idValidator = Validator::stringType()->notEmpty();
+
+        try {
+            $idValidator->assert($id);
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
+            return JsonRenderer::render($rs, 400, ['error' => $e->getMessages()]);
+        }
+
+        if ((filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $id) {
+            return JsonRenderer::render($rs, 400, ['error' => 'Bad data format']);
+        }
+
         try {
             $rdv = $this->serviceRendezVousInterface->getRendezVousById($id);
-
-            //var_dump($rdv);
 
             $data = [
                 'rdv' => $rdv,
@@ -56,7 +68,7 @@ class ConsulterRendezVousAction extends AbstractAction
             ];
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
-            return JsonRenderer::render($rs, 400, ['error' => $e->getMessage()]);
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
     }

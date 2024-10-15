@@ -22,8 +22,11 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         $this->rendezVousRepository = $rendezVousRepository;
         $this->praticienRepository = $praticienRepository;
     }
-    
 
+
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
     public function getRendezVousById(string $id): RendezVousDTO
     {
         try {
