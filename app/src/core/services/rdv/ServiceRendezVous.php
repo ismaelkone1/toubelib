@@ -11,6 +11,10 @@ use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RendezVousRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+
 class ServiceRendezVous implements ServiceRendezVousInterface
 {
 
@@ -21,6 +25,8 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     {
         $this->rendezVousRepository = $rendezVousRepository;
         $this->praticienRepository = $praticienRepository;
+        $this->logger = $logger;
+        $logger = pushHandler(new StreamHandler(__DIR__.'error.log', Logger::INFO));
     }
 
 
@@ -55,13 +61,22 @@ class ServiceRendezVous implements ServiceRendezVousInterface
             $modificationRendezVousDTO->validate();
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
             throw new ServiceRendezVousInvalidDataException('Invalid place data: ' . $e->getMessages());
+            $this->logger->info('Invalid place data');
         }
 
         //TODO: voir si on transmet le DTO ou les paramètres
         try {
             $rendezVous = $this->rendezVousRepository->modifierRendezvous($modificationRendezVousDTO->id, $modificationRendezVousDTO->specialitee, $modificationRendezVousDTO->idPatient);
+            $this->logger->info('Modification de rendez-vous bien enregistrée', [
+                'id' => $modificationRendezVousDTO->id,
+                'specialitee' => $modificationRendezVousDTO->specialitee,
+                'idPatient' => $modificationRendezVousDTO->idPatient,
+            ]);
         } catch (RepositoryEntityNotFoundException $e) {
             throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID');
+            $this->logger->error('Modification de rendez-vous échouée', [
+                'error' => $e->getMessage(),
+            ]);
         }
 
         return new RendezVousDTO($rendezVous);
