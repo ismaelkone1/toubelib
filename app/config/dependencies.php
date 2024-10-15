@@ -1,6 +1,6 @@
 <?php
 
-
+use PDO;
 use Psr\Container\ContainerInterface;
 use toubeelib\application\actions\ConsulterRendezVousAction;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
@@ -14,6 +14,29 @@ use toubeelib\infrastructure\repositories\ArrayRdvRepository;
 
 return [
 
+    'praticien.pdo' => function (ContainerInterface $c) {
+        $config = parse_ini_file(__DIR__ . '/praticien.db.ini');
+        $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
+        $user = $config['username'];
+        $password = $config['password'];
+        return new PDO($dsn, $user, $password);
+    },
+
+    'patient.pdo' => function (ContainerInterface $c) {
+        $config = parse_ini_file(__DIR__ . '/patient.db.ini');
+        $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
+        $user = $config['username'];
+        $password = $config['password'];
+        return new PDO($dsn, $user, $password);
+    },
+
+    'rdv.pdo' => function (ContainerInterface $c) {
+        $config = parse_ini_file(__DIR__ . '/rdv.db.ini');
+        $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
+        $user = $config['username'];
+        $password = $config['password'];
+        return new PDO($dsn, $user, $password);
+    },
 
     ConsulterRendezVousAction::class => function (ContainerInterface $c) {
         return new ConsulterRendezVousAction($c->get(ServiceRendezVousInterface::class));
@@ -24,7 +47,7 @@ return [
     },
 
     RendezVousRepositoryInterface::class => function (ContainerInterface $c) {
-        return new ArrayRdvRepository();
+        return new ArrayRdvRepository($c->get('rdv.pdo'));
     },
 
     ServicePraticienInterface::class => function (ContainerInterface $c) {
@@ -32,6 +55,6 @@ return [
     },
 
     PraticienRepositoryInterface::class => function (ContainerInterface $c) {
-        return new ArrayPraticienRepository();
+        return new ArrayPraticienRepository($c->get('praticien.pdo'));
     }
 ];
