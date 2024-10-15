@@ -2,7 +2,7 @@
 
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
-use toubelib\application\middlewares\AddHearders;
+use toubeelib\application\middlewares\AddHeaders;
 
 
 
@@ -13,7 +13,7 @@ $builder->addDefinitions(__DIR__ . '/dependencies.php');
 $c=$builder->build();
 $app = AppFactory::createFromContainer($c);
 
-$app->add( new AddHearders());
+$app->add( new AddHeaders());
 
 
 $app->addBodyParsingMiddleware();

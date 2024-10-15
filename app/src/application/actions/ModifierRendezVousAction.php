@@ -37,7 +37,7 @@ class ModifierRendezVousAction extends AbstractAction
         try {
             $modifierRdvInputValidator->assert($data);
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
-            throw new HttpBadRequestException($rq, $e->getMessages());
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
         if ((filter_var($args['ID-RDV'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $args['ID-RDV'] || (filter_var($data['specialitee'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $data['specialitee'] || (filter_var($data['patient'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $data['patient']) {
