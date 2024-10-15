@@ -45,6 +45,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         if($specialite != $rdv->specialitee && $specialite != null) {
             $rdv->setSpecialite($specialite);
         }
+
         if($patient != $rdv->idPatient && $patient != null) {
             $rdv->setPatient($patient);
         }

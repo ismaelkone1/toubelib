@@ -2,6 +2,7 @@
 
 namespace toubeelib\core\services\rdv;
 
+use Respect\Validation\Validator;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
 use toubeelib\core\dto\InputRendezVousDTO;
 use toubeelib\core\dto\ModificationRendezVousDTO;
@@ -39,10 +40,23 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     public function modifierRendezvous(ModificationRendezVousDTO $modificationRendezVousDTO): RendezVousDTO
     {
 
+        //On valide le fait que le patient ou bien la spécialité soit renseigné
+        $modifRdvValidator = Validator::anyOf(
+            Validator::key('idPatient', Validator::stringType()->notEmpty()),
+            Validator::key('specialitee', Validator::stringType()->notEmpty())
+        );
+
+        $modificationRendezVousDTO->setBusinessValidator($modifRdvValidator);
+
+        try {
+            $modificationRendezVousDTO->validate();
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
+            throw new ServiceRendezVousInvalidDataException('Invalid place data: ' . $e->getMessages());
+        }
 
         //TODO: voir si on transmet le DTO ou les paramètres
         try {
-            $rendezVous = $this->rendezVousRepository->modifierRendezvous($modificationRendezVousDTO);
+            $rendezVous = $this->rendezVousRepository->modifierRendezvous($modificationRendezVousDTO->id, $modificationRendezVousDTO->specialitee, $modificationRendezVousDTO->idPatient);
         } catch (RepositoryEntityNotFoundException $e) {
             throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID');
         }

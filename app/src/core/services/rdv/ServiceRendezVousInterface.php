@@ -13,6 +13,9 @@ interface ServiceRendezVousInterface
     public function getRendezVousById(string $id): RendezVousDTO;
     public function creerRendezVous(InputRendezVousDTO $r) : RendezVousDTO;
 
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
     public function modifierRendezvous(ModificationRendezVousDTO $modificationRendezVousDTO): RendezVousDTO;
     public function annulerRendezvous(string $id): RendezVousDTO;
 }
