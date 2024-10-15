@@ -66,7 +66,7 @@ class AnnulerRendezVous extends AbstractAction
 
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
-            throw new HttpBadRequestException($rq, $e->getMessages());
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
     }
 }
