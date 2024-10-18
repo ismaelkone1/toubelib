@@ -11,7 +11,7 @@ class Praticien extends Entity
     protected string $prenom;
     protected string $adresse;
     protected string $tel;
-    protected ?Specialite $specialite = null; // version simplifiée : une seule spécialité
+    protected ?Specialite $specialitee = null; // version simplifiée : une seule spécialité
 
     const JOURS_CONSULTATION = [ 'monday', 'tuesday', 'wednesday', 'thursday', 'friday' ];
     const HORAIRES_CONSULTATION = ['08:00', '18:00'];
@@ -25,9 +25,9 @@ class Praticien extends Entity
         $this->tel = $tel;
     }
 
-    public function setSpecialite(Specialite $specialite): void
+    public function setSpecialite(Specialite $specialitee): void
     {
-        $this->specialite = $specialite;
+        $this->specialitee = $specialitee;
     }
 
     public function getNom(): string
@@ -52,7 +52,7 @@ class Praticien extends Entity
 
     public function getSpecialite(): ?Specialite
     {
-        return $this->specialite;
+        return $this->specialitee;
     }
 
     public function toDTO(): PraticienDTO
