@@ -21,12 +21,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     {
         $id = Uuid::uuid4()->toString();
         $rendezVous->setID($id);
-
+    
         $stmt = $this->db->prepare('
             INSERT INTO rdv (id, id_praticien, id_patient, id_spe, type, statut, creneau) 
             VALUES (:id, :id_praticien, :id_patient, :id_spe, :type, :statut, :creneau)
         ');
-
+    
         $stmt->execute([
             ':id' => $id,
             ':id_praticien' => $rendezVous->getPraticienId(),
@@ -36,9 +36,10 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
             ':statut' => $rendezVous->getStatut(),
             ':creneau' => $rendezVous->getCreneau()->format('Y-m-d H:i:s')
         ]);
-
+    
         return $id;
     }
+    
 
     public function getAll(): array
     {
@@ -57,12 +58,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         $updateFields = [];
         $params = [':id' => $id];
 
-        if ($specialite !== null && $specialite !== $rdv->getSpecialiteeId()) {
+        if ($specialite !== null && $specialite !== $rdv->specialitee) {
             $updateFields[] = 'id_spe = :specialite';
             $params[':specialite'] = $specialite;
         }
 
-        if ($patient !== null && $patient !== $rdv->getPatientId()) {
+        if ($patient !== null && $patient !== $rdv->idPatient) {
             $updateFields[] = 'id_patient = :patient';
             $params[':patient'] = $patient;
         }

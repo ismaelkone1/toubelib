@@ -73,7 +73,7 @@ class RendezVous extends Entity
     }
 
     public function getPatientId(){
-        return $this->patient;
+        return $this->idPatient;
     }
 
     public function getSpecialiteeId(){

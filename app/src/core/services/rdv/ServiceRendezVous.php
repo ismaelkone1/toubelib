@@ -128,7 +128,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
 
         // Vérifier la spécialité
-        $la_specialitee = $this->praticienRepository->getSpecialiteById($le_praticien->specialitee);
+        $la_specialitee = $this->praticienRepository->getSpecialiteById($le_praticien->specialitee->getID());
         if (!$la_specialitee) {
             throw new ServiceRendezVousInvalidDataException('Spécialité non valide');
         }

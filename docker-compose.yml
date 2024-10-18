@@ -33,9 +33,7 @@ services:
       - toubeelib.net
     volumes:
       - ./app/sql:/var/sql
-      - ./app/sql/init-multiple-databases.sh:/docker-entrypoint-initdb.d/init-multiple-databases.sh
-    environment:
-      POSTGRES_MULTIPLE_DATABASES: "patients,praticiens,rdv"
+
 
   # Service Adminer
   #
