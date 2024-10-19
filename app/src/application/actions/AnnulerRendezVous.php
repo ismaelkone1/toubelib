@@ -33,11 +33,11 @@ class AnnulerRendezVous extends AbstractAction
         try {
             $idValidator->assert($id);
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
-            return JsonRenderer::render($rs, 400, ['error' => $e->getMessages()]);
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
         if ((filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $id) {
-            return JsonRenderer::render($rs, 400, ['error' => 'Bad data format']);
+            throw new HttpBadRequestException($rq, "Bad data format");
         }
 
         try {
@@ -66,7 +66,7 @@ class AnnulerRendezVous extends AbstractAction
 
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
-            throw new HttpBadRequestException($rq, $e->getMessages());
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
     }
 }

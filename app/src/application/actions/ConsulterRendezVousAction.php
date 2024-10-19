@@ -36,7 +36,7 @@ class ConsulterRendezVousAction extends AbstractAction
         try {
             $idValidator->assert($id);
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
-            return JsonRenderer::render($rs, 400, ['error' => $e->getMessages()]);
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
         if ((filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $id) {
