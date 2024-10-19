@@ -23,7 +23,6 @@ class RendezVousDTO extends DTO
         $this->specialitee = $rdv->specialitee;
         $this->type = $rdv->type;
         $this->statut = $rdv->statut;
-
     }
 
     public function getPraticien(): string
