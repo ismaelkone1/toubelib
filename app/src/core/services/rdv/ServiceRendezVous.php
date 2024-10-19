@@ -238,8 +238,6 @@ class ServiceRendezVous implements ServiceRendezVousInterface
             throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
         }
 
-        return array_map(function (RendezVous $rdv) {
-            return new RendezVousDTO($rdv);
-        }, $rdvs);
+        return  $rdvs;
     }
 }

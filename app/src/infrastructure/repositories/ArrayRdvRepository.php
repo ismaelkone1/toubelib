@@ -214,7 +214,8 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         SELECT * FROM rdv
         WHERE id_praticien = :id_praticien
         AND creneau BETWEEN :start AND :end
-    ');
+        ');
+
         $stmt->execute([
             ':id_praticien' => $praticienId,
             ':start' => $start->format('Y-m-d H:i:s'),
@@ -223,17 +224,19 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Generate possible slots
+
         $creneaux = [];
         $creneau = $start;
         while ($creneau < $end) {
             $dayOfWeek = strtolower($creneau->format('l'));
             $hour = $creneau->format('H:i');
 
+            //Si le jour de la semaine est un jour de consultation et que l'heure est comprise dans les horaires de consultation
             if (in_array($dayOfWeek, $joursConsultation) && $hour >= $horairesConsultation[0] && $hour < $horairesConsultation[1]) {
                 $isAvailable = true;
                 foreach ($results as $result) {
-                    if ($creneau->format('Y-m-d H:i:s') === $result['creneau']) {
+                    //Si il n'y a aucun rendez vous dureeConsultation avant ou après le créneau
+                    if ( $creneau->modify("-{$dureeConsultation} minutes") < new \DateTimeImmutable($result['creneau']) && $creneau->modify("+{$dureeConsultation} minutes") > new \DateTimeImmutable($result['creneau'])) {
                         $isAvailable = false;
                         break;
                     }

@@ -11,8 +11,8 @@ class InputDispoPraticienDTO extends DTO
 
     public function __construct(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end)
     {
-        $praticienId = $this->praticienId;
-        $start = $this->start;
-        $end = $this->end;
+        $this->praticienId = $praticienId;
+        $this->start = $start;
+        $this->end = $end;
     }
 }
