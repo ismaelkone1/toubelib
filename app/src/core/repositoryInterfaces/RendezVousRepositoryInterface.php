@@ -42,18 +42,5 @@ interface RendezVousRepositoryInterface
     /**
      * @throws RepositoryEntityNotFoundException
      */
-    public function setStatutHonore(string $id): RendezVous;
-    /**
-     * @throws RepositoryEntityNotFoundException
-     */
-    public function setStatutPaye(string $id): RendezVous;
-    /**
-     * @throws RepositoryEntityNotFoundException
-     */
-    public function setStatutNonHonore(string $id): RendezVous;
-
-    /**
-     * @throws RepositoryEntityNotFoundException
-     */
     public function listerDispoPraticien(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end): array;
 }

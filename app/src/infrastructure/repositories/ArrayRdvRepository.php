@@ -157,17 +157,32 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
         return $this->setStatut($id, RendezVous::ANNULE);
     }
 
-    public function setStatutHonore(string $id): RendezVous
+    public function gererCycleRdv(string $id, string $statut): RendezVous
+    {
+
+        switch ($statut) {
+            case RendezVous::HONORE:
+                return $this->setStatutHonore($id);
+            case RendezVous::PAYE:
+                return $this->setStatutPaye($id);
+            case RendezVous::NON_HONORE:
+                return $this->setStatutNonHonore($id);
+            default:
+                throw new RepositoryEntityNotFoundException("Statut x$statut not found");
+        }
+    }
+
+    private function setStatutHonore(string $id): RendezVous
     {
         return $this->setStatut($id, RendezVous::HONORE);
     }
 
-    public function setStatutPaye(string $id): RendezVous
+    private function setStatutPaye(string $id): RendezVous
     {
         return $this->setStatut($id, RendezVous::PAYE);
     }
 
-    public function setStatutNonHonore(string $id): RendezVous
+    private function setStatutNonHonore(string $id): RendezVous
     {
         return $this->setStatut($id, RendezVous::NON_HONORE);
     }
