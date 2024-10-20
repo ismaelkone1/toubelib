@@ -70,6 +70,14 @@ class ArrayPraticienRepository implements PraticienRepositoryInterface
         return $this->mapToPraticien($data);
     }
 
+    public function getAllPraticiens(): array
+    {
+        $stmt = $this->db->query('SELECT * FROM praticien');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(fn($data) => $this->mapToPraticien($data), $data);
+    }
+
     private function mapToPraticien(array $data): Praticien
     {
         $praticien = new Praticien(

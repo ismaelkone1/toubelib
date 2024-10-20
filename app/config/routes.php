@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use toubeelib\application\actions\ConsulterListePraticiensAction;
 use toubeelib\application\actions\ConsulterPraticienAction;
 use toubeelib\application\actions\GererCycleRendezVousAction;
 use toubeelib\application\actions\ListerDispoPraticienAction;
@@ -33,6 +34,8 @@ return function( \Slim\App $app):\Slim\App {
     $app->patch('/rdvs/{ID-RDV}/cycle', GererCycleRendezVousAction::class);
 
     $app->get('/praticiens/{ID-PRATICIEN}', ConsulterPraticienAction::class);
+
+    $app->get('/praticiens', ConsulterListePraticiensAction::class);
 
     return $app;
 };
