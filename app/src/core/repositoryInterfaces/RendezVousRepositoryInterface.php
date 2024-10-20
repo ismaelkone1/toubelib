@@ -43,4 +43,9 @@ interface RendezVousRepositoryInterface
      * @throws RepositoryEntityNotFoundException
      */
     public function listerDispoPraticien(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end): array;
+
+    /**
+     * @throws RepositoryEntityNotFoundException
+     */
+    public function listerPlanningPraticien(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end, string $specialite, string $type): array;
 }

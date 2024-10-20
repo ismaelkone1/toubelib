@@ -4,6 +4,7 @@ declare(strict_types=1);
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use toubeelib\application\actions\ConsulterListePraticiensAction;
+use toubeelib\application\actions\ConsulterPlanningPraticien;
 use toubeelib\application\actions\ConsulterPraticienAction;
 use toubeelib\application\actions\GererCycleRendezVousAction;
 use toubeelib\application\actions\ListerDispoPraticienAction;
@@ -36,6 +37,9 @@ return function( \Slim\App $app):\Slim\App {
     $app->get('/praticiens/{ID-PRATICIEN}', ConsulterPraticienAction::class);
 
     $app->get('/praticiens', ConsulterListePraticiensAction::class);
+
+    //La route s'utilise de la manière suivante : /praticiens/4g5h6i7j-8901-1121-3141-6171k9l0m1n2/planning?debut=2024-06-01T08:00:00&fin=2025-06-01T18:00:00&specialitee=CAR&type=consultation
+    $app->get('/praticiens/{ID-PRATICIEN}/planning', ConsulterPlanningPraticien::class);
 
     return $app;
 };

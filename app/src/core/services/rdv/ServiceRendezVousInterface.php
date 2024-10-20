@@ -7,6 +7,7 @@ use toubeelib\core\dto\IdRendezVousDTO;
 use toubeelib\core\dto\InputDispoPraticienDTO;
 use toubeelib\core\dto\InputRendezVousDTO;
 use toubeelib\core\dto\ModificationRendezVousDTO;
+use toubeelib\core\dto\PlanningPraticienDTO;
 use toubeelib\core\dto\RendezVousDTO;
 
 interface ServiceRendezVousInterface
@@ -25,4 +26,9 @@ interface ServiceRendezVousInterface
      * @throws ServiceRendezVousInvalidDataException
      */
     public function listerDispoPraticien(InputDispoPraticienDTO $inputDispoPraticienDTO): array;
+
+    /**
+     * @throws ServiceRendezVousInvalidDataException
+     */
+    public function listerPlanningPraticien(PlanningPraticienDTO $planningPraticienDTO): array;
 }

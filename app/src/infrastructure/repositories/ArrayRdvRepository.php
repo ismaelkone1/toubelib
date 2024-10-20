@@ -265,4 +265,39 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
         return $creneaux;
     }
+
+    /**
+     * afficher le planning d’un praticien sur une période donnée (date de début, date de fin) en
+     * précisant la spécialité concernée et le type de consultation (présentiel, téléconsultation),
+     */
+    public function listerPlanningPraticien(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end, string $specialite, string $type): array {
+
+        //On récupere d'abord le label de la spécialité
+        $stmt = $this->praticienDb->prepare('SELECT * FROM specialite WHERE label = :label');
+        $stmt->execute([':label' => $specialite]);
+        $specialiteData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$specialiteData) {
+            throw new RepositoryEntityNotFoundException("Specialite $specialite not found");
+        }
+
+        $specialiteId = $specialiteData['id'];
+
+
+        //On fais une requête pour récupérer les rendez-vous du praticien avec la spécialité et le type de consultation
+        $stmt = $this->rdvDb->prepare('SELECT * FROM rdv WHERE id_praticien = :id_praticien AND creneau BETWEEN :start AND :end AND id_spe = :id_spe AND type = :type');
+
+
+        $stmt->execute([
+            ':id_praticien' => $praticienId,
+            ':start' => $start->format('Y-m-d H:i:s'),
+            ':end' => $end->format('Y-m-d H:i:s'),
+            ':id_spe' => $specialiteId,
+            ':type' => $type
+        ]);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
+    }
 }
