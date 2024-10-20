@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use toubeelib\application\actions\ConsulterPraticienAction;
 use toubeelib\application\actions\GererCycleRendezVousAction;
 use toubeelib\application\actions\ListerDispoPraticienAction;
 use toubeelib\application\middlewares\AddHeaders;
@@ -22,7 +23,7 @@ return function( \Slim\App $app):\Slim\App {
     $app->patch('/rdvs/{ID-RDV}', ModifierRendezVousAction::class)
     ->add(new AddHeaders);
 
-    $app->patch('/rdvs/{ID-RDV}/annuler', AnnulerRendezVousAction::class)
+    $app->delete('/rdvs/{ID-RDV}', AnnulerRendezVousAction::class)
     ->add(new AddHeaders);
 
     //La route s'utilise de la manière suivante : /praticiens/{ID-PRATICIEN}/disponibilites?debut=2021-06-01T08:00:00&fin=2021-06-01T18:00:00
@@ -30,6 +31,8 @@ return function( \Slim\App $app):\Slim\App {
 
     //La route s'utilise de la manière suivante : /rdvs/{ID-RDV}/cycle?statut=2 pour mettre le rdv en "honore"
     $app->patch('/rdvs/{ID-RDV}/cycle', GererCycleRendezVousAction::class);
+
+    $app->get('/praticiens/{ID-PRATICIEN}', ConsulterPraticienAction::class);
 
     return $app;
 };

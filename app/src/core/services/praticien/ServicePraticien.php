@@ -4,6 +4,7 @@ namespace toubeelib\core\services\praticien;
 
 use Respect\Validation\Exceptions\NestedValidationException;
 use toubeelib\core\domain\entities\praticien\Praticien;
+use toubeelib\core\dto\IdPraticienDTO;
 use toubeelib\core\dto\InputPraticienDTO;
 use toubeelib\core\dto\PraticienDTO;
 use toubeelib\core\dto\SpecialiteDTO;
@@ -25,10 +26,10 @@ class ServicePraticien implements ServicePraticienInterface
         return new PraticienDTO($praticien);
     }
 
-    public function getPraticienById(string $id): PraticienDTO
+    public function getPraticienById(IdPraticienDTO $idPraticienDTO): PraticienDTO
     {
         try {
-            $praticien = $this->praticienRepository->getPraticienById($id);
+            $praticien = $this->praticienRepository->getPraticienById($idPraticienDTO->id);
             return new PraticienDTO($praticien);
         } catch(RepositoryEntityNotFoundException $e) {
             throw new ServicePraticienInvalidDataException('invalid Praticien ID');
@@ -43,16 +44,5 @@ class ServicePraticien implements ServicePraticienInterface
         } catch(RepositoryEntityNotFoundException $e) {
             throw new ServicePraticienInvalidDataException('invalid Specialite ID');
         }
-    }
-
-    /**
-     * @param string $id
-     * @return array La méthode retourne un tableau de créneaux horaires disponibles, chaque créneau
-     * étant un objet DateTime.
-     *      */
-    public function listerDispobibilites(string $id): array
-    {
-        // TODO : retourner les créneaux horaires disponibles pour le praticien
-        return [];
     }
 }

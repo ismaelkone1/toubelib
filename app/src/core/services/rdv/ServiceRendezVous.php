@@ -5,6 +5,7 @@ namespace toubeelib\core\services\rdv;
 use Respect\Validation\Validator;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
 use toubeelib\core\dto\GererCycleRendezVousDTO;
+use toubeelib\core\dto\IdRendezVousDTO;
 use toubeelib\core\dto\InputDispoPraticienDTO;
 use toubeelib\core\dto\InputRendezVousDTO;
 use toubeelib\core\dto\ModificationRendezVousDTO;
@@ -37,10 +38,10 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     /**
      * @throws ServiceRendezVousInvalidDataException
      */
-    public function getRendezVousById(string $id): RendezVousDTO
+    public function getRendezVousById(IdRendezVousDTO $idRendezVousDTO): RendezVousDTO
     {
         try {
-            $rendezVous = $this->rendezVousRepository->getRendezVousById($id);
+            $rendezVous = $this->rendezVousRepository->getRendezVousById($idRendezVousDTO->id);
             return new RendezVousDTO($rendezVous);
         } catch(RepositoryEntityNotFoundException $e) {
             throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
