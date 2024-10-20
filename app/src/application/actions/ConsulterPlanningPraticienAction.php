@@ -11,7 +11,7 @@ use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use Respect\Validation\Validator as v;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
 
-class ConsulterPlanningPraticien extends AbstractAction
+class ConsulterPlanningPraticienAction extends AbstractAction
 {
 
     private ServiceRendezVousInterface $serviceRendezVousInterface;

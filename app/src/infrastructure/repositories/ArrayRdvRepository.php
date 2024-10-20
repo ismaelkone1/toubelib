@@ -300,4 +300,12 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
         return $results;
     }
+
+    public function getRendezVousPatient(string $patientId): array
+    {
+        $stmt = $this->rdvDb->prepare('SELECT * FROM rdv WHERE id_patient = :id_patient');
+        $stmt->execute([':id_patient' => $patientId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

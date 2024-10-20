@@ -6,6 +6,7 @@ use Respect\Validation\Validator;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
 use toubeelib\core\dto\CreneauRendezVousDTO;
 use toubeelib\core\dto\GererCycleRendezVousDTO;
+use toubeelib\core\dto\IdPatientDTO;
 use toubeelib\core\dto\IdRendezVousDTO;
 use toubeelib\core\dto\InputDispoPraticienDTO;
 use toubeelib\core\dto\InputRendezVousDTO;
@@ -234,5 +235,16 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return array_map(function ($rdv) {
             return new CreneauRendezVousDTO($rdv['creneau']);
         }, $rdvs);
+    }
+
+    public function getRendezVousPatient(IdPatientDTO $idPatientDTO): array
+    {
+        try {
+            $rdvs = $this->rendezVousRepository->getRendezVousPatient($idPatientDTO->idPatient);
+        } catch (RepositoryEntityNotFoundException $e) {
+            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+        }
+
+        return $rdvs;
     }
 }
