@@ -4,6 +4,7 @@ namespace toubeelib\core\services\rdv;
 
 use Respect\Validation\Validator;
 use toubeelib\core\domain\entities\rendezvous\RendezVous;
+use toubeelib\core\dto\GererCycleRendezVousDTO;
 use toubeelib\core\dto\InputDispoPraticienDTO;
 use toubeelib\core\dto\InputRendezVousDTO;
 use toubeelib\core\dto\ModificationRendezVousDTO;
@@ -68,8 +69,6 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
 
 
-
-
         try {
             $rendezVous = $this->rendezVousRepository->modifierRendezvous($modificationRendezVousDTO->id, $modificationRendezVousDTO->specialitee, $modificationRendezVousDTO->idPatient);
             $this->logger->info('Modification de rendez-vous bien enregistrée', [
@@ -93,13 +92,6 @@ class ServiceRendezVous implements ServiceRendezVousInterface
      */
     public function creerRendezVous(InputRendezVousDTO $r): RendezVousDTO
     {
-        // Récupérer les données du DTO
-        $idPatient = $r->getIdPatient();
-        $creneau = $r->getCreneau();
-        $praticienId = $r->getPraticien();
-        $specialitee = $r->getSpecialite();
-        $type = $r->getType();
-        $statut = $r->getStatut();
 
         // Valider les données
         $validator = Validator::key('idPatient', Validator::stringType()->notEmpty())
@@ -109,23 +101,16 @@ class ServiceRendezVous implements ServiceRendezVousInterface
             ->key('type', Validator::stringType()->notEmpty())
             ->key('statut', Validator::stringType()->notEmpty());
 
-        $data = [
-            'idPatient' => $idPatient,
-            'creneau' => $creneau,
-            'praticienId' => $praticienId,
-            'specialitee' => $specialitee,
-            'type' => $type,
-            'statut' => $statut
-        ];
+        $r->setBusinessValidator($validator);
 
         try {
-            $validator->assert($data);
+            $r->validate();
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
             throw new ServiceRendezVousInvalidDataException('Invalid data: ' . $e->getMessage());
         }
 
         // Récupérer le praticien
-        $le_praticien = $this->praticienRepository->getPraticienById($praticienId);
+        $le_praticien = $this->praticienRepository->getPraticienById($r->praticienId);
         if (!$le_praticien) {
             throw new ServiceRendezVousInvalidDataException('Praticien non trouvé');
         }
@@ -137,15 +122,15 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
 
         // Vérification de la disponibilité du créneau
-        foreach ($this->rendezVousRepository->getRendezVousByPraticienEtCreneau($praticienId, $creneau->modify('-30 minutes'), $creneau->modify('+30 minutes')) as $rdv) {
+        foreach ($this->rendezVousRepository->getRendezVousByPraticienEtCreneau($r->praticienId, $r->creneau->modify('-30 minutes'), $r->creneau->modify('+30 minutes')) as $rdv) {
             $creneauExistant = $rdv->getCreneau();
-            if ($creneau == $creneauExistant) {
+            if ($r->creneau == $creneauExistant) {
                 throw new ServiceRendezVousInvalidDataException('Le créneau est déjà réservé.');
             }
         }
 
         // Créer un nouveau rendez-vous
-        $nrdv = new RendezVous($praticienId, $idPatient, $specialitee, $creneau);
+        $nrdv = new RendezVous($r->praticienId, $r->idPatient, $r->specialitee, $r->creneau);
         $this->rendezVousRepository->save($nrdv);
 
         return new RendezVousDTO($nrdv);
@@ -165,45 +150,25 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         return new RendezVousDTO($rdv);
     }
 
-    /**
-     * @throws ServiceRendezVousInvalidDataException
-     */
-    public function setStatutHonore(string $id): RendezVousDTO
+    public function gererCycleRdv(GererCycleRendezVousDTO $gererCycleRendezVousDTO): RendezVousDTO
     {
+        $validator = Validator::attribute('id', Validator::stringType()->notEmpty())
+            ->attribute('statut', Validator::stringType()->notEmpty());
+
+        $gererCycleRendezVousDTO->setBusinessValidator($validator);
+
         try {
-            $rdv = $this->rendezVousRepository->setStatutHonore($id);
-        } catch(RepositoryEntityNotFoundException $e) {
-            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+            $gererCycleRendezVousDTO->validate();
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
+            throw new ServiceRendezVousInvalidDataException('Invalid data: ' . $e->getMessage());
         }
 
-        return new RendezVousDTO($rdv);
-    }
-
-    /**
-     * @throws ServiceRendezVousInvalidDataException
-     */
-    public function setStatutPaye(string $id): RendezVousDTO{
         try {
-            $rdv = $this->rendezVousRepository->setStatutPaye($id);
-        } catch(RepositoryEntityNotFoundException $e) {
-            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
-        }
-
-        return new RendezVousDTO($rdv);
-    }
-
-    /**
-     * @throws ServiceRendezVousInvalidDataException
-     */
-    public function setStatutNonHonore(string $id): RendezVousDTO
-    {
-        try {
-            $rdv = $this->rendezVousRepository->setStatutNonHonore($id);
+            $rdv = $this->rendezVousRepository->gererCycleRdv($gererCycleRendezVousDTO->id, $gererCycleRendezVousDTO->statut);
+            return new RendezVousDTO($rdv);
         } catch (RepositoryEntityNotFoundException $e) {
-            throw new ServiceRendezVousInvalidDataException('invalid RendezVous ID');
+            throw new ServiceRendezVousInvalidDataException($e->getMessage());
         }
-
-        return new RendezVousDTO($rdv);
     }
 
     /**
