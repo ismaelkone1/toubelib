@@ -4,17 +4,14 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
-use toubeelib\core\dto\IdRendezVousDTO;
-use toubeelib\core\services\rdv\ServiceRendezVous;
 use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
-use toubeelib\infrastructure\repositories\ArrayRdvRepository;
+use function FastRoute\cachedDispatcher;
 
-class ConsulterRendezVousAction extends AbstractAction
+class AnnulerRendezVousAction extends AbstractAction
 {
 
     private ServiceRendezVousInterface $serviceRendezVousInterface;
@@ -27,20 +24,15 @@ class ConsulterRendezVousAction extends AbstractAction
         $this->serviceRendezVousInterface = $serviceRendezVousInterface;
     }
 
-
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        //On essaye de récupérer l'id donné en paramètre
         $id = $args['ID-RDV'] ?? null;
 
-        $idRendezVousDTO = new IdRendezVousDTO($id);
+        $idValidator = Validator::stringType()->notEmpty();
 
-        $idValidator = Validator::attribute('id', Validator::stringType()->notEmpty());
-
-        $idRendezVousDTO->setBusinessValidator($idValidator);
         try {
-            $idRendezVousDTO->validate();
-        } catch (NestedValidationException $e) {
+            $idValidator->assert($id);
+        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
@@ -49,7 +41,7 @@ class ConsulterRendezVousAction extends AbstractAction
         }
 
         try {
-            $rdv = $this->serviceRendezVousInterface->getRendezVousById($idRendezVousDTO);
+            $rdv = $this->serviceRendezVousInterface->annulerRendezvous($id);
 
             $data = [
                 'rdv' => $rdv,
@@ -64,17 +56,17 @@ class ConsulterRendezVousAction extends AbstractAction
                         "href" => '/rdv/' . $id
                     ],
                     'praticien' => [
-                        "href" => '/praticiens/' . $rdv->getPraticien()
+                        "href" => '/praticien/' . $rdv->getPraticien()
                     ],
                     'patient' => [
                         "href" => '/patient/' . $rdv->getIdPatient()
                     ]
                 ]
             ];
+
             return JsonRenderer::render($rs, 200, $data);
         } catch (ServiceRendezVousInvalidDataException $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
-
     }
 }

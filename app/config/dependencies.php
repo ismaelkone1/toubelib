@@ -46,7 +46,7 @@ return [
     },
 
     RendezVousRepositoryInterface::class => function (ContainerInterface $c) {
-        return new ArrayRdvRepository($c->get('rdv.pdo'));
+        return new ArrayRdvRepository($c->get('rdv.pdo'), $c->get('patient.pdo'), $c->get('praticien.pdo'));
     },
 
     ServicePraticienInterface::class => function (ContainerInterface $c) {

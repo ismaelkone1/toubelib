@@ -4,14 +4,14 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Respect\Validation\Validator;
+use Respect\Validation\Exceptions\NestedValidationException;
+use Respect\Validation\Validator as v;
 use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
+use toubeelib\core\dto\GererCycleRendezVousDTO;
 use toubeelib\core\services\rdv\ServiceRendezVousInterface;
-use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
-use function FastRoute\cachedDispatcher;
 
-class AnnulerRendezVous extends AbstractAction
+class GererCycleRendezVousAction extends AbstractAction
 {
 
     private ServiceRendezVousInterface $serviceRendezVousInterface;
@@ -26,34 +26,39 @@ class AnnulerRendezVous extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface
     {
-        $id = $args['ID-RDV'] ?? null;
+        $queryParams = $rq->getQueryParams();
 
-        $idValidator = Validator::stringType()->notEmpty();
+        $gererCyclerdvDto = new GererCycleRendezVousDTO($args['ID-RDV'], $queryParams['statut']);
 
-        try {
-            $idValidator->assert($id);
-        } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
-            return JsonRenderer::render($rs, 400, ['error' => $e->getMessages()]);
-        }
+        $gererCyclerdvValidator = v::attribute('id', v::stringType()->notEmpty())
+            ->attribute('statut', v::stringType()->notEmpty());
 
-        if ((filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $id) {
-            return JsonRenderer::render($rs, 400, ['error' => 'Bad data format']);
-        }
+        $gererCyclerdvDto->setBusinessValidator($gererCyclerdvValidator);
 
         try {
-            $rdv = $this->serviceRendezVousInterface->annulerRendezvous($id);
+            $gererCyclerdvDto->validate();
+        } catch (NestedValidationException $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
+        }
+
+        if ((filter_var($args['ID-RDV'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $args['ID-RDV'] || (filter_var($queryParams['statut'], FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $queryParams['statut']) {
+            throw new HttpBadRequestException($rq, "Bad data format");
+        }
+
+        try {
+            $rdv = $this->serviceRendezVousInterface->gererCycleRdv($gererCyclerdvDto);
 
             $data = [
                 'rdv' => $rdv,
                 'links' => [
                     'self' => [
-                        "href" => '/rdv/' . $id
+                        "href" => '/rdv/' . $args['ID-RDV']
                     ],
                     'modifier' => [
-                        "href" => '/rdv/' . $id
+                        "href" => '/rdv/' . $args['ID-RDV']
                     ],
                     'annuler' => [
-                        "href" => '/rdv/' . $id
+                        "href" => '/rdv/' . $args['ID-RDV']
                     ],
                     'praticien' => [
                         "href" => '/praticien/' . $rdv->getPraticien()
@@ -65,7 +70,7 @@ class AnnulerRendezVous extends AbstractAction
             ];
 
             return JsonRenderer::render($rs, 200, $data);
-        } catch (ServiceRendezVousInvalidDataException $e) {
+        } catch (\toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
     }
