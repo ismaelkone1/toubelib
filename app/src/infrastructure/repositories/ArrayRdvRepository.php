@@ -33,7 +33,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
             INSERT INTO rdv (id, id_praticien, id_patient, id_spe, type, statut, creneau) 
             VALUES (:id, :id_praticien, :id_patient, :id_spe, :type, :statut, :creneau)
         ');
-
+    
         $stmt->execute([
             ':id' => $id,
             ':id_praticien' => $rendezVous->getPraticienId(),
@@ -43,9 +43,10 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
             ':statut' => $rendezVous->getStatut(),
             ':creneau' => $rendezVous->getCreneau()->format('Y-m-d H:i:s')
         ]);
-
+    
         return $id;
     }
+    
 
     public function getAll(): array
     {
