@@ -4,3 +4,8 @@
 [2024-10-15T15:53:18.561838+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
 [2024-10-20T23:36:06.633046+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
 [2024-10-20T23:52:09.600382+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
+[2024-10-21T16:03:30.749143+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
+[2024-10-21T16:03:59.523540+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
+[2024-10-21T16:05:22.250259+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
+[2024-10-21T16:05:47.096709+00:00] my_logger.ERROR: Modification de rendez-vous échouée {"error":"Specialite B not found"} []
+[2024-10-21T16:26:41.854960+00:00] my_logger.INFO: Modification de rendez-vous bien enregistrée {"id":"7j8k9l0m-1121-3141-5161-9201n3o4p5q6","specialitee":"3f4g5h6i-7890-1121-3141-5161j8k9l0m1","idPatient":"3c4d5e6f-7890-1121-3141-5161c7d8e9f0"} []

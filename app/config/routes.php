@@ -5,7 +5,6 @@ use Slim\App;
 use toubeelib\application\actions\ConsulterListePraticiensAction;
 use toubeelib\application\actions\ConsulterPlanningPraticienAction;
 use toubeelib\application\actions\ConsulterPraticienAction;
-use toubeelib\application\actions\GererCycleRendezVousAction;
 use toubeelib\application\actions\ListerDispoPraticienAction;
 use toubeelib\application\actions\ListerRendezVousPatientAction;
 use toubeelib\application\actions\ModifierOuGererCycleRendezVousAction;
@@ -40,17 +39,13 @@ return function( App $app): App {
     $app->get('/praticiens/{ID-PRATICIEN}/disponibilites', ListerDispoPraticienAction::class)
     ->add(new AddHeaders);
 
-    //La route s'utilise de la manière suivante : /rdvs/{ID-RDV}/cycle?statut=2 pour mettre le rdv en "honore"
-    $app->patch('/rdvs/{ID-RDV}/cycle', GererCycleRendezVousAction::class)
-    ->add(new AddHeaders);
-
     $app->get('/praticiens/{ID-PRATICIEN}', ConsulterPraticienAction::class)
     ->add(new AddHeaders);
 
     $app->get('/praticiens', ConsulterListePraticiensAction::class)
     ->add(new AddHeaders);
 
-    //La route s'utilise de la manière suivante : /praticiens/4g5h6i7j-8901-1121-3141-6171k9l0m1n2/planning?debut=2024-06-01T08:00:00&fin=2025-06-01T18:00:00&specialitee=CAR&type=consultation
+    //La route s'utilise de la manière suivante : /4g5h6i7j-8901-1121-3141-6171k9l0m1n2/planning?debut=2022-06-01T08:00:00&fin=2025-06-01T18:00:00&specialitee=CAR&type=Consultation
     $app->get('/praticiens/{ID-PRATICIEN}/planning', ConsulterPlanningPraticienAction::class)
     ->add(new AddHeaders);
 

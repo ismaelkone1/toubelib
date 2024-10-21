@@ -57,6 +57,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     public function modifierRendezvous(ModificationRendezVousDTO $modificationRendezVousDTO): RendezVousDTO
     {
 
+
         //On valide le fait que le patient ou bien la spécialité soit renseigné
         $modifRdvValidator = Validator::anyOf(
             Validator::attribute('specialitee', Validator::stringType()->notEmpty()),
@@ -84,7 +85,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
             $this->logger->error('Modification de rendez-vous échouée', [
                 'error' => $e->getMessage(),
             ]);
-            throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID');
+            throw new ServiceRendezVousInvalidDataException('Invalid RendezVous ID' . $e->getMessage());
         }
 
         return new RendezVousDTO($rendezVous);

@@ -67,7 +67,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
         if ($specialite !== null && $specialite !== $rdv->specialitee) {
 
-            $stmt = $this->praticienDb->prepare('SELECT * FROM specialite WHERE id = :id');
+            $stmt = $this->praticienDb->prepare('SELECT * FROM specialitee WHERE id = :id');
             $stmt->execute([':id' => $specialite]);
 
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -81,10 +81,10 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
         if ($patient !== null && $patient !== $rdv->idPatient) {
 
-            $stmt = $this->patientDb->prepare('SELECT * FROM patient WHERE id = :id');
-            $stmt->execute([':id' => $patient]);
+            $stmt2 = $this->patientDb->prepare('SELECT * FROM patient WHERE id = :id');
+            $stmt2->execute([':id' => $patient]);
 
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            $data = $stmt2->fetch(PDO::FETCH_ASSOC);
             if (!$data) {
                 throw new RepositoryEntityNotFoundException("Patient $patient not found");
             }
@@ -95,8 +95,8 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
 
         if (!empty($updateFields)) {
             $sql = 'UPDATE rdv SET ' . implode(', ', $updateFields) . ' WHERE id = :id';
-            $stmt = $this->rdvDb->prepare($sql);
-            $stmt->execute($params);
+            $stmt3 = $this->rdvDb->prepare($sql);
+            $stmt3->execute($params);
         }
 
         return $this->getRendezVousById($id);
@@ -274,7 +274,7 @@ class ArrayRdvRepository implements RendezVousRepositoryInterface
     public function listerPlanningPraticien(string $praticienId, \DateTimeImmutable $start, \DateTimeImmutable $end, string $specialite, string $type): array {
 
         //On récupere d'abord le label de la spécialité
-        $stmt = $this->praticienDb->prepare('SELECT * FROM specialite WHERE label = :label');
+        $stmt = $this->praticienDb->prepare('SELECT * FROM specialitee WHERE label = :label');
         $stmt->execute([':label' => $specialite]);
         $specialiteData = $stmt->fetch(PDO::FETCH_ASSOC);
 
