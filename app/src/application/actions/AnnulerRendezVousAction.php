@@ -11,7 +11,7 @@ use toubeelib\core\services\rdv\ServiceRendezVousInterface;
 use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
 use function FastRoute\cachedDispatcher;
 
-class AnnulerRendezVous
+class AnnulerRendezVousAction extends AbstractAction
 {
 
     private ServiceRendezVousInterface $serviceRendezVousInterface;
@@ -33,11 +33,11 @@ class AnnulerRendezVous
         try {
             $idValidator->assert($id);
         } catch (\Respect\Validation\Exceptions\NestedValidationException $e) {
-            return JsonRenderer::render($rs, 400, ['error' => $e->getMessages()]);
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
 
         if ((filter_var($id, FILTER_SANITIZE_FULL_SPECIAL_CHARS)) !== $id) {
-            return JsonRenderer::render($rs, 400, ['error' => 'Bad data format']);
+            throw new HttpBadRequestException($rq, "Bad data format");
         }
 
         try {

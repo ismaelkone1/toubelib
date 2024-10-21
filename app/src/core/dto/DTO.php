@@ -26,6 +26,9 @@ abstract class DTO implements JsonSerializable
     }
 
     public function jsonSerialize(): array {
-        return get_object_vars($this);
+        //On retourne un tableau associatif des propriétés de l'objet sauf la propriété businessValidator
+        $properties = get_object_vars($this);
+        unset($properties['businessValidator']);
+        return $properties;
     }
 }

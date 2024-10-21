@@ -13,7 +13,7 @@ class Praticien extends Entity
     protected string $tel;
     protected ?Specialite $specialitee = null; // version simplifiée : une seule spécialité
 
-    const JOURS_CONSULTATION = [ 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    const JOURS_CONSULTATION = [ 'monday', 'tuesday', 'wednesday', 'thursday', 'friday' ];
     const HORAIRES_CONSULTATION = ['08:00', '18:00'];
     const DUREE_CONSULTATION = 30; // en minutes
 
