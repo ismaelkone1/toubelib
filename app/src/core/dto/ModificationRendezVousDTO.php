@@ -2,7 +2,7 @@
 
 namespace toubeelib\core\dto;
 
-use toubeelib\core\domain\entities\patient\rendezvous\RendezVous;
+use toubeelib\core\domain\entities\rendezvous\RendezVous;
 
 class ModificationRendezVousDTO extends DTO
 {

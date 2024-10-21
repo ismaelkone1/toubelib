@@ -2,8 +2,8 @@
 
 namespace toubeelib\core\repositoryInterfaces;
 
-use toubeelib\core\domain\entities\patient\praticien\Praticien;
-use toubeelib\core\domain\entities\patient\praticien\Specialite;
+use toubeelib\core\domain\entities\praticien\Praticien;
+use toubeelib\core\domain\entities\praticien\Specialite;
 
 interface PraticienRepositoryInterface
 {

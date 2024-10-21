@@ -1,6 +1,6 @@
 <?php
 
-namespace toubeelib\core\services\auth\auth\rdv;
+namespace toubeelib\core\services\rdv;
 
 
 use toubeelib\core\dto\IdRendezVousDTO;
@@ -9,6 +9,7 @@ use toubeelib\core\dto\InputRendezVousDTO;
 use toubeelib\core\dto\ModificationRendezVousDTO;
 use toubeelib\core\dto\PlanningPraticienDTO;
 use toubeelib\core\dto\RendezVousDTO;
+use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
 
 interface ServiceRendezVousInterface
 {

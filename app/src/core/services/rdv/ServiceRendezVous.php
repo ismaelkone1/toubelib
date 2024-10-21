@@ -1,9 +1,9 @@
 <?php
 
-namespace toubeelib\core\services\auth\auth\rdv;
+namespace toubeelib\core\services\rdv;
 
 use Respect\Validation\Validator;
-use toubeelib\core\domain\entities\patient\rendezvous\RendezVous;
+use toubeelib\core\domain\entities\rendezvous\RendezVous;
 use toubeelib\core\dto\CreneauRendezVousDTO;
 use toubeelib\core\dto\GererCycleRendezVousDTO;
 use toubeelib\core\dto\IdPatientDTO;
@@ -19,6 +19,8 @@ use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use toubeelib\core\services\rdv\ServiceRendezVousInterface;
+use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
 
 
 class ServiceRendezVous implements ServiceRendezVousInterface
