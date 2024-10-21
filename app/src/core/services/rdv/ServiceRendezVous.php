@@ -98,12 +98,12 @@ class ServiceRendezVous implements ServiceRendezVousInterface
     {
 
         // Valider les données
-        $validator = Validator::key('idPatient', Validator::stringType()->notEmpty())
-            ->key('creneau', Validator::dateTime())
-            ->key('praticienId', Validator::stringType()->notEmpty())
-            ->key('specialitee', Validator::stringType()->notEmpty())
-            ->key('type', Validator::stringType()->notEmpty())
-            ->key('statut', Validator::stringType()->notEmpty());
+        $validator = Validator::attribute('idPatient', Validator::stringType()->notEmpty())
+            ->attribute('creneau', Validator::instance('DateTimeImmutable'))
+            ->attribute('praticien', Validator::stringType()->notEmpty())
+            ->attribute('specialitee', Validator::stringType()->notEmpty())
+            ->attribute('type', Validator::stringType()->notEmpty())
+            ->attribute('statut', Validator::stringType()->notEmpty());
 
         $r->setBusinessValidator($validator);
 
@@ -114,7 +114,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
 
         // Récupérer le praticien
-        $le_praticien = $this->praticienRepository->getPraticienById($r->praticienId);
+        $le_praticien = $this->praticienRepository->getPraticienById($r->praticien);
         if (!$le_praticien) {
             throw new ServiceRendezVousInvalidDataException('Praticien non trouvé');
         }
@@ -126,7 +126,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
 
         // Vérification de la disponibilité du créneau
-        foreach ($this->rendezVousRepository->getRendezVousByPraticienEtCreneau($r->praticienId, $r->creneau->modify('-30 minutes'), $r->creneau->modify('+30 minutes')) as $rdv) {
+        foreach ($this->rendezVousRepository->getRendezVousByPraticienEtCreneau($r->praticien, $r->creneau->modify('-30 minutes'), $r->creneau->modify('+30 minutes')) as $rdv) {
             $creneauExistant = $rdv->getCreneau();
             if ($r->creneau == $creneauExistant) {
                 throw new ServiceRendezVousInvalidDataException('Le créneau est déjà réservé.');
@@ -134,7 +134,7 @@ class ServiceRendezVous implements ServiceRendezVousInterface
         }
 
         // Créer un nouveau rendez-vous
-        $nrdv = new RendezVous($r->praticienId, $r->idPatient, $r->specialitee, $r->creneau);
+        $nrdv = new RendezVous($r->praticien, $r->idPatient, $r->specialitee, $r->creneau);
         $this->rendezVousRepository->save($nrdv);
 
         return new RendezVousDTO($nrdv);

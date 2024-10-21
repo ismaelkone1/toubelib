@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Slim\App;
 use toubeelib\application\actions\ConsulterListePraticiensAction;
 use toubeelib\application\actions\ConsulterPlanningPraticienAction;
 use toubeelib\application\actions\ConsulterPraticienAction;
@@ -14,7 +15,7 @@ use toubeelib\application\actions\CreerRendezVousAction;
 use toubeelib\application\actions\HomeAction;
 use toubeelib\application\actions\ModifierOuGererCycleRendezVousAction;
 
-return function( \Slim\App $app):\Slim\App {
+return function( App $app): App {
 
     $app->get('/', HomeAction::class)
     ->add(new AddHeaders);
