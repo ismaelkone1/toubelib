@@ -10,13 +10,17 @@ use toubeelib\application\actions\CreerRendezVous;
 use toubeelib\application\actions\CreerRendezVousAction;
 use toubeelib\application\actions\HomeAction;
 use toubeelib\application\actions\ModifierRendezVousAction;
+use toubeelib\application\actions\SigninAction;
 
 return function( \Slim\App $app):\Slim\App {
 
     $app->get('/', HomeAction::class)
     ->add(new AddHeaders);
 
-    $app->post('/prendre-rdvs/', CreerRendezVousAction::class)
+    $app->post('/auth/signin', SigninAction::class)
+    ->add(new AddHeaders);
+
+    $app->post('/prendre-rdvs', CreerRendezVousAction::class)
     ->add(new AddHeaders);
 
     $app->get('/rdvs/{ID-RDV}', ConsulterRendezVousAction::class)
