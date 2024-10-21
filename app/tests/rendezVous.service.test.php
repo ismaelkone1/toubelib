@@ -3,8 +3,8 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use toubeelib\core\dto\InputRendezVousDTO;
-use toubeelib\core\services\rdv\ServiceRendezVous;
-use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVous;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInvalidDataException;
 
 
 $service = new ServiceRendezVous(new \toubeelib\infrastructure\repositories\ArrayRdvRepository());

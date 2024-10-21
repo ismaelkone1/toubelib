@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\dto\IdPatientDTO;
-use toubeelib\core\services\rdv\ServiceRendezVousInterface;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInterface;
 use Respect\Validation\Validator as v;
 
 class ListerRendezVousPatientAction extends AbstractAction
@@ -40,7 +40,7 @@ class ListerRendezVousPatientAction extends AbstractAction
 
         try {
             $rdvs = $this->serviceRendezVousInterface->getRendezVousPatient($idPatientDTO);
-        } catch (\toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException $e) {
+        } catch (\toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInvalidDataException $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
 

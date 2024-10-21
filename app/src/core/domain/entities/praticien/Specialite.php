@@ -1,8 +1,8 @@
 <?php
 
-namespace toubeelib\core\domain\entities\praticien;
+namespace toubeelib\core\domain\entities\patient\praticien;
 
-use toubeelib\core\domain\entities\Entity;
+use toubeelib\core\domain\entities\patient\Entity;
 use toubeelib\core\dto\SpecialiteDTO;
 
 class Specialite extends Entity

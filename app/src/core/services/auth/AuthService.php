@@ -1,11 +1,11 @@
 <?php
 
-namespace toubeelib\core\services;
+namespace toubeelib\core\services\auth\auth;
 
 use toubeelib\core\repositoryInterfaces\PatientRepositoryInterface;
 use toubeelib\core\dto\AuthDTO;
 use InvalidArgumentException;
-use toubeelib\core\domain\entities\Patient;
+use toubeelib\core\domain\entities\patient\Patient;
 
 class AuthService
 {

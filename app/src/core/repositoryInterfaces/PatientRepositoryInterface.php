@@ -2,7 +2,7 @@
 
 namespace toubeelib\core\repositoryInterfaces;
 
-use toubeelib\core\domain\entities\Patient;
+use toubeelib\core\domain\entities\patient\Patient;
 
 interface PatientRepositoryInterface
 {

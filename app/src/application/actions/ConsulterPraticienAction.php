@@ -9,8 +9,8 @@ use Respect\Validation\Validator;
 use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\dto\IdPraticienDTO;
-use toubeelib\core\services\praticien\ServicePraticienInterface;
-use toubeelib\core\services\praticien\ServicePraticienInvalidDataException;
+use toubeelib\core\services\auth\auth\praticien\ServicePraticienInterface;
+use toubeelib\core\services\auth\auth\praticien\ServicePraticienInvalidDataException;
 
 class ConsulterPraticienAction extends AbstractAction
 {

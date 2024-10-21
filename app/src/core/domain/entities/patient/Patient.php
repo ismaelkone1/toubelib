@@ -1,9 +1,7 @@
 <?php
 
-namespace toubeelib\core\domain\entities;
-
+namespace toubeelib\core\domain\entities\patient;
 use toubeelib\core\domain\entities\Entity;
-
 
 class Patient extends Entity
 {
@@ -11,19 +9,19 @@ class Patient extends Entity
     protected string $prenom;
     protected string $adresse;
     protected string $tel;
-    protected string $dateNaissance;
     protected string $email;
     protected string $pass;
     protected int $role;
 
-    public function __construct(string $nom, string $prenom, string $adresse, string $tel, string $dateNaissance, string $email)
+    public function __construct(string $nom, string $prenom, string $adresse, string $tel, string $email, string $pass)
     {
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->adresse = $adresse;
         $this->tel = $tel;
-        $this->dateNaissance = $dateNaissance;
         $this->email = $email;
+        $this->pass = $pass;
+        $this->role = 1;
     }
 
     public function getNom(): string
@@ -44,11 +42,6 @@ class Patient extends Entity
     public function getTel(): string
     {
         return $this->tel;
-    }
-
-    public function getDateNaissance(): string
-    {
-        return $this->dateNaissance;
     }
 
     public function getEmail(): string

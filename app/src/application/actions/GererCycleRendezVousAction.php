@@ -9,7 +9,7 @@ use Respect\Validation\Validator as v;
 use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\dto\GererCycleRendezVousDTO;
-use toubeelib\core\services\rdv\ServiceRendezVousInterface;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInterface;
 
 class GererCycleRendezVousAction extends AbstractAction
 {
@@ -70,7 +70,7 @@ class GererCycleRendezVousAction extends AbstractAction
             ];
 
             return JsonRenderer::render($rs, 200, $data);
-        } catch (\toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException $e) {
+        } catch (\toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInvalidDataException $e) {
             throw new HttpBadRequestException($rq, $e->getMessage());
         }
     }

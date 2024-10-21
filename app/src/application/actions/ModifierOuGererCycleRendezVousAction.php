@@ -9,8 +9,8 @@ use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\dto\GererCycleRendezVousDTO;
 use toubeelib\core\dto\ModificationRendezVousDTO;
-use toubeelib\core\services\rdv\ServiceRendezVousInterface;
-use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInterface;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInvalidDataException;
 use Respect\Validation\Validator as v;
 
 class ModifierOuGererCycleRendezVousAction extends AbstractAction

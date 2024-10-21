@@ -4,8 +4,8 @@ namespace toubeelib\infrastructure\repositories;
 
 use PDO;
 use Ramsey\Uuid\Uuid;
-use toubeelib\core\domain\entities\praticien\Praticien;
-use toubeelib\core\domain\entities\praticien\Specialite;
+use toubeelib\core\domain\entities\patient\praticien\Praticien;
+use toubeelib\core\domain\entities\patient\praticien\Specialite;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 

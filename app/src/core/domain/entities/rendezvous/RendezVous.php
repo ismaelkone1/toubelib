@@ -1,11 +1,11 @@
 <?php
 
-namespace toubeelib\core\domain\entities\rendezvous;
+namespace toubeelib\core\domain\entities\patient\rendezvous;
 
 use DateTimeImmutable;
-use toubeelib\core\domain\entities\Entity;
-use toubeelib\core\domain\entities\praticien\Praticien;
-use toubeelib\core\domain\entities\praticien\Specialite;
+use toubeelib\core\domain\entities\patient\Entity;
+use toubeelib\core\domain\entities\patient\praticien\Praticien;
+use toubeelib\core\domain\entities\patient\praticien\Specialite;
 
 class RendezVous extends Entity
 {

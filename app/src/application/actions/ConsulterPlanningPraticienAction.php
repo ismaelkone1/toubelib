@@ -7,9 +7,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use toubeelib\application\renderer\JsonRenderer;
 use toubeelib\core\dto\PlanningPraticienDTO;
-use toubeelib\core\services\rdv\ServiceRendezVousInterface;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInterface;
 use Respect\Validation\Validator as v;
-use toubeelib\core\services\rdv\ServiceRendezVousInvalidDataException;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInvalidDataException;
 
 class ConsulterPlanningPraticienAction extends AbstractAction
 {

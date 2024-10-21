@@ -1,9 +1,9 @@
 <?php
 
-namespace toubeelib\core\services\praticien;
+namespace toubeelib\core\services\auth\auth\praticien;
 
 use Respect\Validation\Exceptions\NestedValidationException;
-use toubeelib\core\domain\entities\praticien\Praticien;
+use toubeelib\core\domain\entities\patient\praticien\Praticien;
 use toubeelib\core\dto\IdPraticienDTO;
 use toubeelib\core\dto\InputPraticienDTO;
 use toubeelib\core\dto\PraticienDTO;

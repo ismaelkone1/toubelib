@@ -5,7 +5,7 @@ namespace toubeelib\application\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpException;
-use toubeelib\core\providers\AuthProvider;
+use toubeelib\core\provider\AuthProvider;
 use Slim\Psr7\Response as SlimResponse;
 
 class SigninAction

@@ -2,66 +2,103 @@
 
 namespace toubeelib\infrastructure\repositories;
 
-use toubeelib\core\domain\entities\Patient;
+use PDO;
+use toubeelib\core\domain\entities\patient\Patient;
 use toubeelib\core\repositoryInterfaces\PatientRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 use Ramsey\Uuid\Uuid;
 
 class ArrayPatientRepository implements PatientRepositoryInterface
 {
-    private array $patients = [];
+    private PDO $db;
 
-    public function __construct(array $initialPatients = [])
+    public function __construct(PDO $db)
     {
-        // Si des patients sont fournis au départ, on les ajoute au tableau.
-        foreach ($initialPatients as $patient) {
-            $this->patients[$patient->getId()] = $patient;
-        }
+        $this->db = $db;
     }
 
     public function findByEmail(string $email): ?Patient
     {
-        foreach ($this->patients as $patient) {
-            if ($patient->getEmail() === $email) {
-                return $patient;
-            }
+        $stmt = $this->db->prepare('SELECT * FROM patient WHERE email = :email');
+        $stmt->execute([':email' => $email]);
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) {
+            return null;
         }
 
-        return null; // Pas de patient trouvé
+        return $this->mapToPatient($data);
     }
 
     public function findById(string $id): ?Patient
     {
-        return $this->patients[$id] ?? null; // Retourne null si le patient n'est pas trouvé
+        $stmt = $this->db->prepare('SELECT * FROM patient WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) {
+            return null;
+        }
+
+        return $this->mapToPatient($data);
     }
 
     public function save(Patient $patient): string
     {
         $id = $patient->getId() ?: Uuid::uuid4()->toString();
-        $patient->setId($id); // Assigne un ID si non existant
+        $patient->setId($id);
 
-        // Ajout ou mise à jour du patient dans le tableau
-        $this->patients[$id] = $patient;
+        $stmt = $this->db->prepare('
+            INSERT INTO patient (id, nom, prenom, email, tel, adresse)
+            VALUES (:id, :nom, :prenom, :email, :tel, :adresse)
+            ON CONFLICT (id) DO UPDATE
+            SET nom = EXCLUDED.nom, prenom = EXCLUDED.prenom, email = EXCLUDED.email, tel = EXCLUDED.tel, adresse = EXCLUDED.adresse
+        ');
+
+        $stmt->execute([
+            ':id' => $id,
+            ':nom' => $patient->getNom(),
+            ':prenom' => $patient->getPrenom(),
+            ':email' => $patient->getEmail(),
+            ':tel' => $patient->getTel(),
+            ':adresse' => $patient->getAdresse()
+        ]);
 
         return $id;
     }
 
     public function delete(string $id): void
     {
-        if (!isset($this->patients[$id])) {
+        $stmt = $this->db->prepare('DELETE FROM patient WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+
+        if ($stmt->rowCount() === 0) {
             throw new RepositoryEntityNotFoundException("Patient $id not found");
         }
-
-        unset($this->patients[$id]);
     }
 
-    /**
-     * Récupère tous les patients du repository
-     *
-     * @return array
-     */
     public function getAll(): array
     {
-        return $this->patients;
+        $stmt = $this->db->query('SELECT * FROM patient');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map(fn($data) => $this->mapToPatient($data), $data);
+    }
+
+    private function mapToPatient(array $data): Patient
+    {
+        $patient = new Patient(
+            $data['nom'],
+            $data['prenom'],
+            $data['adresse'],
+            $data['tel'],
+            $data['email'],
+            $data['password']
+        );
+        $patient->setId($data['id']);
+
+        return $patient;
     }
 }

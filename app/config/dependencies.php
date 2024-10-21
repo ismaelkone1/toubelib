@@ -2,12 +2,17 @@
 
 use Psr\Container\ContainerInterface;
 use toubeelib\application\actions\ConsulterRendezVousAction;
+use toubeelib\application\actions\SigninAction;
+use toubeelib\core\provider\AuthProvider;
+use toubeelib\core\repositoryInterfaces\PatientRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RendezVousRepositoryInterface;
-use toubeelib\core\services\praticien\ServicePraticien;
-use toubeelib\core\services\praticien\ServicePraticienInterface;
-use toubeelib\core\services\rdv\ServiceRendezVous;
-use toubeelib\core\services\rdv\ServiceRendezVousInterface;
+use toubeelib\core\services\auth\auth\AuthService;
+use toubeelib\core\services\auth\auth\praticien\ServicePraticien;
+use toubeelib\core\services\auth\auth\praticien\ServicePraticienInterface;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVous;
+use toubeelib\core\services\auth\auth\rdv\ServiceRendezVousInterface;
+use toubeelib\infrastructure\repositories\ArrayPatientRepository;
 use toubeelib\infrastructure\repositories\ArrayPraticienRepository;
 use toubeelib\infrastructure\repositories\ArrayRdvRepository;
 
@@ -37,6 +42,7 @@ return [
         return new PDO($dsn, $user, $password);
     },
 
+
     ConsulterRendezVousAction::class => function (ContainerInterface $c) {
         return new ConsulterRendezVousAction($c->get(ServiceRendezVousInterface::class));
     },
@@ -55,5 +61,22 @@ return [
 
     PraticienRepositoryInterface::class => function (ContainerInterface $c) {
         return new ArrayPraticienRepository($c->get('praticien.pdo'));
-    }
+    },
+
+    PatientRepositoryInterface::class => function (ContainerInterface $c) {
+        return new ArrayPatientRepository($c->get('patient.pdo'));
+    },
+
+    'jwt.secret' => function () {
+        $config = parse_ini_file(__DIR__ . '/toubeelib.env');
+        return $config['JWT_SECRET_KEY'];
+    },
+
+    'AuthProvider' => function (ContainerInterface $c) {
+        return new AuthProvider($c->get(AuthService::class), $c->get('jwt.secret'));
+    },
+
+    SigninAction::class => function (ContainerInterface $c) {
+        return new SigninAction($c->get('AuthProvider'));
+    },
 ];

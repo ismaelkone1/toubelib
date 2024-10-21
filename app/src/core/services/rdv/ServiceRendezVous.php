@@ -1,9 +1,9 @@
 <?php
 
-namespace toubeelib\core\services\rdv;
+namespace toubeelib\core\services\auth\auth\rdv;
 
 use Respect\Validation\Validator;
-use toubeelib\core\domain\entities\rendezvous\RendezVous;
+use toubeelib\core\domain\entities\patient\rendezvous\RendezVous;
 use toubeelib\core\dto\CreneauRendezVousDTO;
 use toubeelib\core\dto\GererCycleRendezVousDTO;
 use toubeelib\core\dto\IdPatientDTO;
