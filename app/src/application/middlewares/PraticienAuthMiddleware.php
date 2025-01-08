@@ -2,14 +2,14 @@
 
 namespace toubeelib\application\middlewares;
 
-use toubeelib\core\services\auth\auth\AuthzService;
+use toubeelib\core\services\auth\AuthzService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\Response as SlimResponse;
 
-class PraticienAuthzMiddleware
+class PraticienAuthMiddleware
 {
     private AuthzService $authzService;
 

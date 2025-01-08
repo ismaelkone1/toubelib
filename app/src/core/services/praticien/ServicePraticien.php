@@ -10,8 +10,8 @@ use toubeelib\core\dto\PraticienDTO;
 use toubeelib\core\dto\SpecialiteDTO;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
-use toubeelib\core\services\auth\auth\praticien\ServicePraticienInterface;
-use toubeelib\core\services\auth\auth\praticien\ServicePraticienInvalidDataException;
+use toubeelib\core\services\praticien\ServicePraticienInterface;
+use toubeelib\core\services\praticien\ServicePraticienInvalidDataException;
 
 class ServicePraticien implements ServicePraticienInterface
 {
