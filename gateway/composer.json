@@ -1,0 +1,13 @@
+{
+    "require": {
+        "slim/slim": "^4.0",
+        "nyholm/psr7": "^1.5",
+        "php-di/php-di": "^6.0",
+        "nyholm/psr7-server": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gateway\\": "src/Gateway"
+        }
+    }
+}

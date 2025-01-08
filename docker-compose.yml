@@ -45,4 +45,22 @@ services:
       - '8080:8080'
     networks:
       - toubeelib.net
+  
+
+  # Service pour la gateway
+  gateway.toubeelib:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
+    ports:
+      - '7080:80'
+    volumes:
+      - ./gateway:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
+    depends_on:
+      - toubeelib.db
+    command: php -S 0.0.0.0:80 -t /var/php/
 
