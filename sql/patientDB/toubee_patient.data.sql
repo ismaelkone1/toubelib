@@ -1,0 +1,2 @@
+INSERT INTO "public"."patient" ("id", "nom", "prenom", "ville", "email", "password", "tel", "adresse")
+VALUES ('1a2b3c4d-5678-9101-1121-3141a5b6c7d8', 'nom', 'prenom', 'VilleTest', 'test@example.com', 'password123', '0123456789', '123 Rue Exemple, VilleTest');

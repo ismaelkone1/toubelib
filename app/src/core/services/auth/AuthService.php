@@ -1,6 +1,6 @@
 <?php
 
-namespace toubeelib\core\services\auth\auth;
+namespace toubeelib\core\services\auth;
 
 use toubeelib\core\repositoryInterfaces\PatientRepositoryInterface;
 use toubeelib\core\dto\AuthDTO;

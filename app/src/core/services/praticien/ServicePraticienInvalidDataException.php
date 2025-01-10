@@ -1,6 +1,6 @@
 <?php
 
-namespace toubeelib\core\services\auth\auth\praticien;
+namespace toubeelib\core\services\praticien;
 
 class ServicePraticienInvalidDataException extends \Exception
 {

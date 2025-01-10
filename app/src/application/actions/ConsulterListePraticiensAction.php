@@ -5,7 +5,7 @@ namespace toubeelib\application\actions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use toubeelib\application\renderer\JsonRenderer;
-use toubeelib\core\services\auth\auth\praticien\ServicePraticienInterface;
+use toubeelib\core\services\praticien\ServicePraticienInterface;
 
 class ConsulterListePraticiensAction extends AbstractAction
 {
